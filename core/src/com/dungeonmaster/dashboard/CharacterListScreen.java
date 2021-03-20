@@ -24,7 +24,7 @@ public class CharacterListScreen implements Screen, InputProcessor {
     private final static float DEFAULT_PADDING = 16;
     private final static int DEFAULT_CARDS_PER_ROW = 5;
 
-    private final ArrayList<Character> characters;
+    private ArrayList<Character> characters;
     private ArrayList<Vector2[]> characterCardBounds;
     private Character selectedCharacter;
 
@@ -37,10 +37,13 @@ public class CharacterListScreen implements Screen, InputProcessor {
     private BitmapFont segoePrint18;
     private ShapeRenderer shapeRenderer;
 
-    public CharacterListScreen(ArrayList<Character> characters) {
+    public CharacterListScreen() {
         super();
-        this.characters = characters;
         selectedCharacter = null;
+    }
+
+    public void setCharacters(ArrayList<Character> characters) {
+        this.characters = characters;
     }
 
     @Override
