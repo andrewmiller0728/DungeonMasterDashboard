@@ -229,7 +229,7 @@ public class WorldMapScreen implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 touchWorldPos = mapScreenXYtoWorldXY(new Vector2(screenX, screenY));
-        System.out.printf("Touch at point (%.0f, %.0f)\n", touchWorldPos.x, touchWorldPos.y);
+        System.out.printf("[Screen]    Touch at WORLD point (%.0f, %.0f)\n", touchWorldPos.x, touchWorldPos.y);
         for (int i = 0; i < zoneCoordinates.size(); i++) {
             Circle tempCircle = new Circle();
             tempCircle.set(zoneCoordinates.get(i).x, zoneCoordinates.get(i).y, CIRCLE_RADIUS);

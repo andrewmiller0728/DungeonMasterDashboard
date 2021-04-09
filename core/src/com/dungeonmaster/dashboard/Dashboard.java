@@ -2,15 +2,38 @@ package com.dungeonmaster.dashboard;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
-public class Dashboard extends Game {
+public class Dashboard extends Game implements InputProcessor {
+
+	private final static float DEFAULT_MARGIN = 48;
+	private final static float DEFAULT_PADDING = 16;
 
 	private SpriteBatch batch;
+	private ShapeRenderer shapeRenderer;
+	private Viewport viewport;
+	private OrthographicCamera camera;
+	private BitmapFont segoePrint32;
+//	private Vector2[] backButtonBounds;
+	private Rectangle backButtonRect;
+
+	private InputMultiplexer inputMultiplexer;
 
 	private ArrayList<Character> characters;
 
@@ -24,7 +47,20 @@ public class Dashboard extends Game {
 
 	@Override
 	public void create () {
+		System.out.print("[Game]    Creating game\n");
+
+		camera = new OrthographicCamera();
+		viewport = new FitViewport(1000f, 1000f, camera);
+		viewport.apply();
+		camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+
+		inputMultiplexer = new InputMultiplexer();
+
 		batch = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
+
+		segoePrint32 = new BitmapFont(Gdx.files.internal("./segoe-print-32px.fnt"));
+		segoePrint32.setColor(0f, 0f, 0f, 1f);
 
 		characters = generateTestCharacters();
 
@@ -38,10 +74,19 @@ public class Dashboard extends Game {
 
 		commandList = new CommandList();
 		commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.DASHBOARD));
+
+		backButtonRect = new Rectangle();
 	}
 
 	@Override
 	public void render () {
+		camera.update();
+		Gdx.gl.glClearColor(38f / 255f, 11f / 255f, 8f / 255f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		batch.setProjectionMatrix(camera.combined);
+		shapeRenderer.setProjectionMatrix(camera.combined);
+
 		if (commandList.peekNextCommand() != null) {
 			Command currCommand = commandList.getNextCommand();
 			System.out.printf("[Game]    Current Command = %s\n", currCommand.toString());
@@ -49,11 +94,47 @@ public class Dashboard extends Game {
 			executeCommand(currCommand);
 		}
 		this.getScreen().render(Gdx.graphics.getDeltaTime());
+
+		drawBackButton();
+	}
+
+	private void drawBackButton() {
+		GlyphLayout backButtonText = new GlyphLayout();
+		backButtonText.setText(
+				segoePrint32,
+				"back"
+		);
+		backButtonRect.set(
+				viewport.getWorldWidth() - (backButtonText.width + DEFAULT_PADDING + DEFAULT_MARGIN),
+				DEFAULT_MARGIN,
+				backButtonText.width + DEFAULT_PADDING,
+				backButtonText.height * 2f
+		);
+
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		shapeRenderer.setColor(251f / 255f, 245f / 255f, 229f / 255f, 1f);
+		shapeRenderer.rect(
+				backButtonRect.x,
+				backButtonRect.y,
+				backButtonRect.width,
+				backButtonRect.height
+		);
+		shapeRenderer.end();
+
+		batch.begin();
+		segoePrint32.draw(
+				batch,
+				backButtonText,
+				backButtonRect.x + DEFAULT_PADDING / 2f,
+				backButtonRect.y + backButtonText.height + DEFAULT_PADDING / 2f
+		);
+		batch.end();
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
+		segoePrint32.dispose();
 		characterListScreen.dispose();
 		characterScreen.dispose();
 		zoneScreen.dispose();
@@ -70,32 +151,35 @@ public class Dashboard extends Game {
 	}
 
 	private void executeSwitchScreenCommand(SwitchScreenCommand ssCommand) {
+		inputMultiplexer.clear();
+		inputMultiplexer.addProcessor(this);
 		switch (ssCommand.getNewScreenType()) {
 			case DASHBOARD:
 				this.setScreen(dashboardScreen);
-				Gdx.input.setInputProcessor(dashboardScreen);
+				inputMultiplexer.addProcessor(dashboardScreen);
 				break;
 			case WORLD_MAP:
 				this.setScreen(worldMapScreen);
-				Gdx.input.setInputProcessor(worldMapScreen);
+				inputMultiplexer.addProcessor(worldMapScreen);
 				break;
 			case ZONE:
 				zoneScreen.setCharacters(characters);
 				this.setScreen(zoneScreen);
-				Gdx.input.setInputProcessor(zoneScreen);
+				inputMultiplexer.addProcessor(zoneScreen);
 				break;
 			case CHARACTER_LIST:
 				this.setScreen(characterListScreen);
-				Gdx.input.setInputProcessor(characterListScreen);
+				inputMultiplexer.addProcessor(characterListScreen);
 				break;
 			case CHARACTER:
 				characterScreen.setCharacter((Character) ssCommand.getPayload());
 				this.setScreen(characterScreen);
-				Gdx.input.setInputProcessor(characterScreen);
+				inputMultiplexer.addProcessor(characterScreen);
 				break;
 			default:
 				break;
 		}
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	private ArrayList<Character> generateTestCharacters() {
@@ -171,4 +255,78 @@ public class Dashboard extends Game {
 
 		return characters;
 	}
+
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		viewport.update(width, height);
+		camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		System.out.printf("[Game]    Touch at SCREEN point (%d, %d)\n", screenX, screenY);
+		Vector2 touchWorldPos = mapScreenXYtoWorldXY(new Vector2(screenX, screenY));
+		System.out.printf("[Game]    Touch at WORLD point (%.0f, %.0f)\n", touchWorldPos.x, touchWorldPos.y);
+		if (backButtonRect.contains(touchWorldPos)) {
+			commandList.undo();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(float amountX, float amountY) {
+		return false;
+	}
+
+	private Vector2 mapScreenXYtoWorldXY(Vector2 xy) {
+		return new Vector2(
+				MathUtils.map(
+						viewport.getLeftGutterWidth(),
+						viewport.getRightGutterX(),
+						0f,
+						viewport.getWorldWidth(),
+						xy.x
+				),
+				MathUtils.map(
+						viewport.getTopGutterY(),
+						viewport.getBottomGutterHeight(),
+						0f,
+						viewport.getWorldHeight(),
+						xy.y
+				)
+		);
+	}
+
 }

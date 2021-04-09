@@ -25,19 +25,15 @@ public class CharacterScreen implements Screen, InputProcessor {
     private OrthographicCamera camera;
     private BitmapFont segoePrint32;
     private BitmapFont segoePrint24;
-    private Vector2[] backButtonBounds;
-    private boolean backSelected;
     private static CommandList commandList;
 
     public CharacterScreen() {
         super();
-        backSelected = false;
     }
 
     public CharacterScreen(Character character) {
         super();
         this.character = character;
-        backSelected = false;
     }
 
     @Override
@@ -228,22 +224,6 @@ public class CharacterScreen implements Screen, InputProcessor {
             );
         }
 
-        // Back Button
-        GlyphLayout backButtonText = new GlyphLayout();
-        backButtonText.setText(
-                segoePrint32,
-                "back"
-        );
-        backButtonBounds = new Vector2[2];
-        backButtonBounds[0] = new Vector2(viewport.getWorldWidth() - (backButtonText.width + 64), 96);
-        backButtonBounds[1] = new Vector2(backButtonText.width, backButtonText.height);
-        segoePrint32.draw(
-                batch,
-                backButtonText,
-                backButtonBounds[0].x,
-                backButtonBounds[0].y
-        );
-
         batch.end();
     }
 
@@ -265,7 +245,7 @@ public class CharacterScreen implements Screen, InputProcessor {
 
     @Override
     public void hide() {
-        backSelected = false;
+
     }
 
     @Override
@@ -302,25 +282,13 @@ public class CharacterScreen implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 touchWorldPos = mapScreenXYtoWorldXY(new Vector2(screenX, screenY));
-        if (isInsideBounds(touchWorldPos, backButtonBounds)) {
-            backSelected = true;
-            return true;
-        }
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         Vector2 touchWorldPos = mapScreenXYtoWorldXY(new Vector2(screenX, screenY));
-        if (backSelected && isInsideBounds(touchWorldPos, backButtonBounds)) {
-//            commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.CHARACTER_LIST));
-            commandList.undo();
-            return true;
-        }
-        else {
-            backSelected = false;
-            return false;
-        }
+        return false;
     }
 
     @Override
@@ -355,16 +323,6 @@ public class CharacterScreen implements Screen, InputProcessor {
                         xy.y
                 )
         );
-    }
-
-    private boolean isInsideBounds(Vector2 coordinates, Vector2[] bounds) {
-        boolean containedX = bounds[0].x <= coordinates.x && bounds[0].x + bounds[1].x >= coordinates.x;
-        boolean containedY = bounds[0].y >= coordinates.y && bounds[0].y - bounds[1].y <= coordinates.y;
-        return (containedX && containedY);
-    }
-
-    public boolean getBackSelected() {
-        return backSelected;
     }
 
     public void setCharacter(Character character) {
