@@ -15,6 +15,7 @@ public class Dashboard extends Game {
 	private ArrayList<Character> characters;
 
 	private DashboardScreen dashboardScreen;
+	private WorldMapScreen worldMapScreen;
 	private ZoneScreen zoneScreen;
 	private CharacterListScreen characterListScreen;
 	private CharacterScreen characterScreen;
@@ -29,6 +30,7 @@ public class Dashboard extends Game {
 
 		String[] cardTitles = {"World Map", "Character List"};
 		dashboardScreen = new DashboardScreen(cardTitles);
+		worldMapScreen = new WorldMapScreen();
 		zoneScreen = new ZoneScreen();
 		characterListScreen = new CharacterListScreen();
 		characterListScreen.setCharacters(characters);
@@ -72,6 +74,10 @@ public class Dashboard extends Game {
 			case DASHBOARD:
 				this.setScreen(dashboardScreen);
 				Gdx.input.setInputProcessor(dashboardScreen);
+				break;
+			case WORLD_MAP:
+				this.setScreen(worldMapScreen);
+				Gdx.input.setInputProcessor(worldMapScreen);
 				break;
 			case ZONE:
 				zoneScreen.setCharacters(characters);

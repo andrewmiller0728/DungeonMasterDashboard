@@ -221,6 +221,10 @@ public class DashboardScreen implements Screen, InputProcessor {
                     commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.CHARACTER_LIST));
                     return true;
                 }
+                else if (selectedCardTitle.equals("World Map")) {
+                    commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.WORLD_MAP));
+                    return true;
+                }
             }
         }
         return false;
