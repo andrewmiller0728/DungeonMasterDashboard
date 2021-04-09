@@ -7,26 +7,19 @@ public class SwitchScreenCommand extends Command {
     }
 
     private final ScreenType newScreenType;
-    private final Object payload;
 
     public SwitchScreenCommand(ScreenType newScreenType) {
         super(Action.SWITCH_SCREEN);
         this.newScreenType = newScreenType;
-        payload = null;
     }
 
     public SwitchScreenCommand(ScreenType newScreenType, Object payload) {
-        super(Action.SWITCH_SCREEN);
+        super(Action.SWITCH_SCREEN, payload);
         this.newScreenType = newScreenType;
-        this.payload = payload;
     }
 
     public ScreenType getNewScreenType() {
         return newScreenType;
-    }
-
-    public Object getPayload() {
-        return payload;
     }
 
 }

@@ -7,6 +7,7 @@ public class Command {
     }
 
     private Action commandAction;
+    private Object payload;
 
     private static int nextID = 1;
     private int id;
@@ -15,6 +16,14 @@ public class Command {
         commandAction = action;
         id = nextID;
         nextID++;
+        payload = null;
+    }
+
+    public Command(Action action, Object payload) {
+        commandAction = action;
+        id = nextID;
+        nextID++;
+        this.payload = payload;
     }
 
     public Action getCommandAction() {
@@ -23,6 +32,10 @@ public class Command {
 
     public int getID() {
         return id;
+    }
+
+    public Object getPayload() {
+        return payload;
     }
 
     @Override
