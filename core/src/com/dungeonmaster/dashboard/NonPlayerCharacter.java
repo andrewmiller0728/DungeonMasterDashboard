@@ -9,7 +9,7 @@ public class NonPlayerCharacter extends Character {
             String name,
             Texture icon,
             Vector3 loc,
-            Background background,
+            CharacterBackground background,
             int[] abilityScores,
             AlignmentX alignX,
             AlignmentY alignY,

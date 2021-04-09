@@ -5,17 +5,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Event;
 
 import java.util.ArrayList;
 
 public class Dashboard extends Game {
 
 	private SpriteBatch batch;
+
 	private ArrayList<Character> characters;
+
+	private DashboardScreen dashboardScreen;
 	private ZoneScreen zoneScreen;
 	private CharacterListScreen characterListScreen;
 	private CharacterScreen characterScreen;
+
+	private static CommandList commandList;
 
 	@Override
 	public void create () {
@@ -23,31 +27,25 @@ public class Dashboard extends Game {
 
 		characters = generateTestCharacters();
 
-		characterListScreen = new CharacterListScreen();
-		characterScreen = new CharacterScreen();
+		String[] cardTitles = {"World Map", "Character List"};
+		dashboardScreen = new DashboardScreen(cardTitles);
 		zoneScreen = new ZoneScreen();
+		characterListScreen = new CharacterListScreen();
+		characterListScreen.setCharacters(characters);
+		characterScreen = new CharacterScreen();
+
+		commandList = new CommandList();
+		commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.DASHBOARD));
 	}
 
 	@Override
 	public void render () {
-		if (this.getScreen() == null) {
-//			characterListScreen.setCharacters(characters);
-//			this.setScreen(characterListScreen);
-//			Gdx.input.setInputProcessor(characterListScreen);
-			zoneScreen.setCharacters(characters);
-			zoneScreen.setZoneParameters(0, 60, 5280 / 4);
-			this.setScreen(zoneScreen);
+		if (commandList.peekNextCommand() != null) {
+			Command currCommand = commandList.getNextCommand();
+			System.out.printf("[Game]    Current Command = %s\n", currCommand.toString());
+			commandList.printList();
+			executeCommand(currCommand);
 		}
-		else if (this.getScreen().equals(characterListScreen) && characterListScreen.getSelectedCharacter() != null) {
-			characterScreen.setCharacter(characterListScreen.getSelectedCharacter());
-			this.setScreen(characterScreen);
-			Gdx.input.setInputProcessor(characterScreen);
-		}
-		else if (this.getScreen().equals(characterScreen) && characterScreen.getBackSelected()) {
-			this.setScreen(characterListScreen);
-			Gdx.input.setInputProcessor(characterListScreen);
-		}
-
 		this.getScreen().render(Gdx.graphics.getDeltaTime());
 	}
 	
@@ -55,6 +53,43 @@ public class Dashboard extends Game {
 	public void dispose () {
 		batch.dispose();
 		characterListScreen.dispose();
+		characterScreen.dispose();
+		zoneScreen.dispose();
+	}
+
+	private void executeCommand(Command command) {
+		switch (command.getCommandAction()) {
+			case SWITCH_SCREEN:
+				executeSwitchScreenCommand((SwitchScreenCommand) command);
+				break;
+			default:
+				break;
+		}
+	}
+
+	private void executeSwitchScreenCommand(SwitchScreenCommand ssCommand) {
+		switch (ssCommand.getNewScreenType()) {
+			case DASHBOARD:
+				this.setScreen(dashboardScreen);
+				Gdx.input.setInputProcessor(dashboardScreen);
+				break;
+			case ZONE:
+				zoneScreen.setCharacters(characters);
+				this.setScreen(zoneScreen);
+				Gdx.input.setInputProcessor(zoneScreen);
+				break;
+			case CHARACTER_LIST:
+				this.setScreen(characterListScreen);
+				Gdx.input.setInputProcessor(characterListScreen);
+				break;
+			case CHARACTER:
+				characterScreen.setCharacter((Character) ssCommand.getPayload());
+				this.setScreen(characterScreen);
+				Gdx.input.setInputProcessor(characterScreen);
+				break;
+			default:
+				break;
+		}
 	}
 
 	private ArrayList<Character> generateTestCharacters() {
@@ -89,7 +124,7 @@ public class Dashboard extends Game {
 				"Wayne Dwayne",
 				new Texture("./character-art/survivors/survivor-male-03.jpg"),
 				new Vector3(0, 0, 1),
-				Background.ENTERTAINER,
+				CharacterBackground.ENTERTAINER,
 				characterDAbilityScores,
 				AlignmentX.CHAOTIC,
 				AlignmentY.NEUTRAL,

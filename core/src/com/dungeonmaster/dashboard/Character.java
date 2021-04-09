@@ -12,7 +12,7 @@ public class Character {
     private Vector3 location;
     private int maxHitPoints;
     private int currHitPoints;
-    private Background background;
+    private CharacterBackground background;
     private AbilityScores abilityScores;
     private AlignmentX alignmentX;
     private AlignmentY alignmentY;
@@ -25,7 +25,7 @@ public class Character {
             String name,
             Texture icon,
             Vector3 loc,
-            Background background,
+            CharacterBackground background,
             int[] abilityScores,
             AlignmentX alignX,
             AlignmentY alignY,
@@ -83,43 +83,43 @@ public class Character {
         // Set background
         switch (dice.rollDn(12)) {
             case 1:
-                background = Background.ACOLYTE;
+                background = CharacterBackground.ACOLYTE;
                 break;
             case 2:
-                background = Background.ATHLETE;
+                background = CharacterBackground.ATHLETE;
                 break;
             case 3:
-                background = Background.CHARLATAN;
+                background = CharacterBackground.CHARLATAN;
                 break;
             case 4:
-                background = Background.CRIMINAL;
+                background = CharacterBackground.CRIMINAL;
                 break;
             case 5:
-                background = Background.ENTERTAINER;
+                background = CharacterBackground.ENTERTAINER;
                 break;
             case 6:
-                background = Background.HEALER;
+                background = CharacterBackground.HEALER;
                 break;
             case 7:
-                background = Background.LABORER;
+                background = CharacterBackground.LABORER;
                 break;
             case 8:
-                background = Background.NOBLE;
+                background = CharacterBackground.NOBLE;
                 break;
             case 9:
-                background = Background.SCHOLAR;
+                background = CharacterBackground.SCHOLAR;
                 break;
             case 10:
-                background = Background.SURVIVALIST;
+                background = CharacterBackground.SURVIVALIST;
                 break;
             case 11:
-                background = Background.SOLDIER;
+                background = CharacterBackground.SOLDIER;
                 break;
             case 12:
-                background = Background.TRAVELER;
+                background = CharacterBackground.TRAVELER;
                 break;
             default:
-                background = Background.URCHIN;
+                background = CharacterBackground.URCHIN;
                 break;
         }
 
@@ -144,7 +144,7 @@ public class Character {
         return name;
     }
 
-    public Background getBackground() {
+    public CharacterBackground getBackground() {
         return background;
     }
 

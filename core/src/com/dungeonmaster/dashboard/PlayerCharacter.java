@@ -15,7 +15,7 @@ public class PlayerCharacter extends Character {
             String charName,
             Texture icon,
             Vector3 loc,
-            Background background,
+            CharacterBackground background,
             int[] abilityScores,
             AlignmentX alignX,
             AlignmentY alignY,

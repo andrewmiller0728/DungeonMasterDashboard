@@ -37,6 +37,8 @@ public class CharacterListScreen implements Screen, InputProcessor {
     private BitmapFont segoePrint18;
     private ShapeRenderer shapeRenderer;
 
+    private static CommandList commandList;
+
     public CharacterListScreen() {
         super();
         selectedCharacter = null;
@@ -53,6 +55,8 @@ public class CharacterListScreen implements Screen, InputProcessor {
         characterCardBounds = new ArrayList<>();
 
         batch = new SpriteBatch();
+
+        commandList = new CommandList();
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(1000f, 1000f, camera);
@@ -190,6 +194,7 @@ public class CharacterListScreen implements Screen, InputProcessor {
         batch.dispose();
         segoePrint32.dispose();
         segoePrint24.dispose();
+        segoePrint18.dispose();
         shapeRenderer.dispose();
     }
 
@@ -230,6 +235,7 @@ public class CharacterListScreen implements Screen, InputProcessor {
                         selectedCharacter = null;
                         return true;
                     }
+                    commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.CHARACTER, selectedCharacter));
                     return true;
                 }
             }
@@ -285,7 +291,4 @@ public class CharacterListScreen implements Screen, InputProcessor {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
-    public Character getSelectedCharacter() {
-        return selectedCharacter;
-    }
 }

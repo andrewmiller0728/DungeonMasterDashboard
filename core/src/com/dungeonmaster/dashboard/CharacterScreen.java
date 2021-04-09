@@ -27,6 +27,7 @@ public class CharacterScreen implements Screen, InputProcessor {
     private BitmapFont segoePrint24;
     private Vector2[] backButtonBounds;
     private boolean backSelected;
+    private static CommandList commandList;
 
     public CharacterScreen() {
         super();
@@ -44,6 +45,8 @@ public class CharacterScreen implements Screen, InputProcessor {
         System.out.print("[Screen]    Showing CharacterScreen\n");
 
         batch = new SpriteBatch();
+
+        commandList = new CommandList();
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(1000f, 1000f, camera);
@@ -310,6 +313,8 @@ public class CharacterScreen implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         Vector2 touchWorldPos = mapScreenXYtoWorldXY(new Vector2(screenX, screenY));
         if (backSelected && isInsideBounds(touchWorldPos, backButtonBounds)) {
+//            commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.CHARACTER_LIST));
+            commandList.undo();
             return true;
         }
         else {
