@@ -107,7 +107,7 @@ public class ZoneScreen implements Screen, InputProcessor {
 
         // Header Text
         GlyphLayout headerText = new GlyphLayout();
-        headerText.setText(segoePrint32, zone.getName().toString());
+        headerText.setText(segoePrint32, zone.getName());
         segoePrint32.draw(
                 batch,
                 headerText,
@@ -122,8 +122,6 @@ public class ZoneScreen implements Screen, InputProcessor {
         batch.begin();
         for (int i = 0; i < characters.size(); i++) {
             Character currCharacter = characters.get(i);
-//            System.out.printf("Character %s in zone %s\n", currCharacter.getName(), currCharacter.getZone());
-//            System.out.println("CharacterZone=" + currCharacter.getZone());
             if (currCharacter.getZone().equals(zone)) {
                 Sprite currSprite = characterSprites.get(i);
                 currSprite.setSize(

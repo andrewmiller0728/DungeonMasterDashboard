@@ -10,7 +10,7 @@ public class ZoneTest {
                 new Vector2(400, 800)
         );
         System.out.println("\n[Test]    Testing Zone A");
-        System.out.printf("\t             getName() -> %s\n", zoneA.getName().toString());
+        System.out.printf("\t             getName() -> %s\n", zoneA.getLabel().toString());
         System.out.printf("\t   getWorldMapCoords() -> %s\n", zoneA.getWorldMapCoords().toString());
         System.out.printf("\t       getDimensions() -> %s\n", zoneA.getDimensions().toString());
         System.out.printf("\tgetDimensionsInTiles() -> %s\n", zoneA.getDimensionsInTiles().toString());
@@ -21,7 +21,7 @@ public class ZoneTest {
                 Zone.ZoneLabel.COOKOUT
         );
         System.out.println("[Test]    Testing Zone B");
-        System.out.printf("\t             getName() -> %s\n", zoneB.getName().toString());
+        System.out.printf("\t             getName() -> %s\n", zoneB.getLabel().toString());
         System.out.printf("\t   getWorldMapCoords() -> %s\n", zoneB.getWorldMapCoords().toString());
         System.out.printf("\t       getDimensions() -> %s\n", zoneB.getDimensions().toString());
         System.out.printf("\tgetDimensionsInTiles() -> %s\n", zoneB.getDimensionsInTiles().toString());

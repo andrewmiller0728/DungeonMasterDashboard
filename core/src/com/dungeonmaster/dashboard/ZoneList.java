@@ -24,7 +24,7 @@ public class ZoneList {
 
     public Zone getZone(Zone.ZoneLabel name) {
         for (int i = 0; i < zones.size(); i++) {
-            if (zones.get(i).getName() == (name)) {
+            if (zones.get(i).getLabel() == (name)) {
                 return zones.get(i);
             }
         }
@@ -37,7 +37,7 @@ public class ZoneList {
             System.out.printf(
                     "\tZone %d: \"%s\"",
                     zones.get(i).getID(),
-                    zones.get(i).getName().toString()
+                    zones.get(i).getLabel().toString()
             );
         }
     }

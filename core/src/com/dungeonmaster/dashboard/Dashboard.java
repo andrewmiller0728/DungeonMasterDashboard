@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -36,7 +35,7 @@ public class Dashboard extends Game implements InputProcessor {
 
 	private ArrayList<Character> characters;
 
-	private DashboardScreen dashboardScreen;
+	private OptionCardScreen optionCardScreen;
 	private WorldMapScreen worldMapScreen;
 	private ZoneScreen zoneScreen;
 	private CharacterListScreen characterListScreen;
@@ -66,10 +65,14 @@ public class Dashboard extends Game implements InputProcessor {
 		characters = generateTestCharacters();
 
 		commandList = new CommandList();
-		commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.DASHBOARD));
+		commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.OPTION_CARD));
 
 		String[] cardTitles = {"World Map", "Character List"};
-		dashboardScreen = new DashboardScreen(cardTitles);
+		Command[] cardCommands = {
+				new SwitchScreenCommand(SwitchScreenCommand.ScreenType.WORLD_MAP),
+				new SwitchScreenCommand(SwitchScreenCommand.ScreenType.CHARACTER_LIST)
+		};
+		optionCardScreen = new OptionCardScreen(cardTitles, cardCommands);
 		worldMapScreen = new WorldMapScreen();
 		worldMapScreen.setCharacters(characters);
 		zoneScreen = new ZoneScreen();
@@ -128,6 +131,14 @@ public class Dashboard extends Game implements InputProcessor {
 						new Vector2(258, 404),
 						new Vector2(50, 25),
 						Zone.ZoneLabel.FOXRIDGE,
+						characters
+				)
+		);
+		tempList.addZone(
+				new Zone(
+						new Vector2(512, 644),
+						new Vector2(30, 30),
+						Zone.ZoneLabel.DOWNTOWN,
 						characters
 				)
 		);
@@ -271,15 +282,6 @@ public class Dashboard extends Game implements InputProcessor {
 		);
 		batch.end();
 	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		segoePrint32.dispose();
-		characterListScreen.dispose();
-		characterScreen.dispose();
-		zoneScreen.dispose();
-	}
 
 	private void executeCommand(Command command) {
 		switch (command.getCommandAction()) {
@@ -295,9 +297,9 @@ public class Dashboard extends Game implements InputProcessor {
 		inputMultiplexer.clear();
 		inputMultiplexer.addProcessor(this);
 		switch (ssCommand.getNewScreenType()) {
-			case DASHBOARD:
-				this.setScreen(dashboardScreen);
-				inputMultiplexer.addProcessor(dashboardScreen);
+			case OPTION_CARD:
+				this.setScreen(optionCardScreen);
+				inputMultiplexer.addProcessor(optionCardScreen);
 				break;
 			case WORLD_MAP:
 				this.setScreen(worldMapScreen);
@@ -322,6 +324,15 @@ public class Dashboard extends Game implements InputProcessor {
 				break;
 		}
 		Gdx.input.setInputProcessor(inputMultiplexer);
+	}
+
+	@Override
+	public void dispose () {
+		batch.dispose();
+		segoePrint32.dispose();
+		characterListScreen.dispose();
+		characterScreen.dispose();
+		zoneScreen.dispose();
 	}
 
 	@Override

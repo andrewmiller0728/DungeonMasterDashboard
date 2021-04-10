@@ -135,7 +135,7 @@ public class WorldMapScreen implements Screen, InputProcessor {
         for (int i = 0; i < zoneList.getSize(); i++) {
             Zone currZone = zoneList.getZone(i);
             GlyphLayout nameText = new GlyphLayout();
-            nameText.setText(segoePrint18, currZone.getName().toString());
+            nameText.setText(segoePrint18, currZone.getName());
             drawLabelBox(
                     currZone.getWorldMapCoords().x,
                     currZone.getWorldMapCoords().y - CIRCLE_RADIUS,
@@ -149,7 +149,7 @@ public class WorldMapScreen implements Screen, InputProcessor {
         for (int i = 0; i < zoneList.getSize(); i++) {
             Zone currZone = zoneList.getZone(i);
             GlyphLayout nameText = new GlyphLayout();
-            nameText.setText(segoePrint18, currZone.getName().toString());
+            nameText.setText(segoePrint18, currZone.getName());
             segoePrint18.draw(
                     batch,
                     nameText,

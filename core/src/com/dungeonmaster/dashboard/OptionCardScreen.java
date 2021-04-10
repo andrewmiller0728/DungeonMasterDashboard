@@ -12,13 +12,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class DashboardScreen implements Screen, InputProcessor {
+public class OptionCardScreen implements Screen, InputProcessor {
 
-    private final static float DEFAULT_MARGIN = 48;
+    private final static float DEFAULT_MARGIN = 64;
     private final static float DEFAULT_PADDING = 12;
 
     private SpriteBatch batch;
@@ -31,14 +32,32 @@ public class DashboardScreen implements Screen, InputProcessor {
     private ShapeRenderer shapeRenderer;
 
     private static CommandList commandList;
-    private String[] cardTitles;
-    private Vector2[][] cardBounds;
-    private String selectedCardTitle;
+    private String[] optionCardTitles;
+    private Command[] optionCardCommands;
+    private Rectangle[] optionCardRectangles;
+    private int selectedCardIndex;
 
-    public DashboardScreen(String[] cardTitles) {
-        this.cardTitles = cardTitles;
-        cardBounds = new Vector2[this.cardTitles.length][2];
-        selectedCardTitle = null;
+    public OptionCardScreen() {
+        commandList = new CommandList();
+        optionCardTitles = null;
+        optionCardCommands = null;
+        optionCardRectangles = null;
+        selectedCardIndex = -1;
+    }
+
+    public OptionCardScreen(String[] optionCardTitles, Command[] optionCardCommands) {
+        if (optionCardTitles.length != optionCardCommands.length) {
+            throw new IllegalArgumentException("The length of card titles and actions must be equal");
+        }
+        this.optionCardTitles = optionCardTitles;
+        this.optionCardCommands = optionCardCommands;
+        optionCardRectangles = new Rectangle[this.optionCardTitles.length];
+        selectedCardIndex = -1;
+    }
+
+    public void setCards(String[] optionCardTitles, Command[] optionCardCommands) {
+        this.optionCardTitles = optionCardTitles;
+        this.optionCardCommands = optionCardCommands;
     }
 
     @Override
@@ -63,6 +82,20 @@ public class DashboardScreen implements Screen, InputProcessor {
         segoePrint18.setColor(0f, 0f, 0f, 1f);
 
         shapeRenderer = new ShapeRenderer();
+
+        // Create rectangle boundaries for option cards
+        for (int i = 0; i < optionCardTitles.length; i++) {
+            float cardMarginFactor = (7f / 8f);
+            optionCardRectangles[i] = new Rectangle();
+            optionCardRectangles[i].setSize(
+                    viewport.getWorldWidth() * 0.618f,
+                    ((viewport.getWorldHeight() - (DEFAULT_MARGIN * 4f) - DEFAULT_MARGIN) * cardMarginFactor) / optionCardTitles.length
+            );
+            optionCardRectangles[i].setCenter(
+                    viewport.getWorldWidth() / 2f,
+                    (viewport.getWorldHeight() - (DEFAULT_MARGIN * 3f)) - (optionCardRectangles[i].height / 2f) - (i * (optionCardRectangles[i].height * (1f / cardMarginFactor)))
+            );
+        }
     }
 
     private void setBackgroundSprite(Texture backgroundTexture) {
@@ -97,7 +130,7 @@ public class DashboardScreen implements Screen, InputProcessor {
 
         // Header Text
         GlyphLayout headerText = new GlyphLayout();
-        headerText.setText(segoePrint32, "Dungeon Master Dashboard");
+        headerText.setText(segoePrint32, "Menu");
         segoePrint32.draw(
                 batch,
                 headerText,
@@ -108,51 +141,41 @@ public class DashboardScreen implements Screen, InputProcessor {
         batch.end();
 
         // Option Cards
-        float cardWidth = viewport.getWorldWidth() * 0.618f;
-        float cardHeight = (viewport.getWorldHeight() - ((DEFAULT_MARGIN * 4f) + (cardTitles.length * (DEFAULT_MARGIN / 2f)))) / cardTitles.length;
-        for (int i = 0; i < cardTitles.length; i++) {
-            float centerX = viewport.getWorldWidth() / 2f;
-            float centerY = (viewport.getWorldHeight() - (DEFAULT_MARGIN * 3f)) - (cardHeight / 2f) - (i * (cardHeight + (DEFAULT_MARGIN / 2f)));
-            cardBounds[i][0] = new Vector2(centerX - (cardWidth / 2f), centerY - (cardHeight / 2f));
-            cardBounds[i][1] = new Vector2(cardWidth, cardHeight);
-            drawScreenOptionCard(
-                    cardTitles[i],
-                    centerX,
-                    centerY,
-                    cardWidth,
-                    cardHeight
-            );
-        }
+        drawOptionCards();
     }
 
-    private void drawScreenOptionCard(String text, float centerX, float centerY, float cardWidth, float cardHeight) {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(100f / 255f, 33f / 255f, 24f / 255f, 1f);
-        shapeRenderer.rect(
-                centerX - cardWidth / 2f,
-                centerY - cardHeight / 2f,
-                cardWidth,
-                cardHeight
-        );
-        shapeRenderer.setColor(151f / 255f, 51f / 255f, 37f / 255f, 1f);
-        shapeRenderer.rect(
-                centerX - (cardWidth - DEFAULT_PADDING) / 2f,
-                centerY - (cardHeight - DEFAULT_PADDING) / 2f,
-                cardWidth - DEFAULT_PADDING,
-                cardHeight - DEFAULT_PADDING
-        );
-        shapeRenderer.end();
+    private void drawOptionCards() {
+        for (int i = 0; i < optionCardTitles.length; i++) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(100f / 255f, 33f / 255f, 24f / 255f, 1f);
+            shapeRenderer.rect(
+                    optionCardRectangles[i].x,
+                    optionCardRectangles[i].y,
+                    optionCardRectangles[i].width,
+                    optionCardRectangles[i].height
+            );
+            shapeRenderer.setColor(151f / 255f, 51f / 255f, 37f / 255f, 1f);
+            shapeRenderer.rect(
+                    optionCardRectangles[i].x + (DEFAULT_PADDING / 2f),
+                    optionCardRectangles[i].y + (DEFAULT_PADDING / 2f),
+                    optionCardRectangles[i].width - DEFAULT_PADDING,
+                    optionCardRectangles[i].height - DEFAULT_PADDING
+            );
+            shapeRenderer.end();
+        }
 
-        batch.begin();
-        GlyphLayout cardText = new GlyphLayout();
-        cardText.setText(segoePrint32, text);
-        segoePrint32.draw(
-                batch,
-                cardText,
-                centerX - cardText.width / 2f,
-                centerY + cardText.height / 2f
-        );
-        batch.end();
+        for (int i = 0; i < optionCardTitles.length; i++) {
+            batch.begin();
+            GlyphLayout cardText = new GlyphLayout();
+            cardText.setText(segoePrint32, optionCardTitles[i]);
+            segoePrint32.draw(
+                    batch,
+                    cardText,
+                    optionCardRectangles[i].getCenter(new Vector2()).x - (cardText.width / 2f),
+                    optionCardRectangles[i].getCenter(new Vector2()).y + (cardText.height / 2f)
+            );
+            batch.end();
+        }
     }
 
     @Override
@@ -173,7 +196,7 @@ public class DashboardScreen implements Screen, InputProcessor {
 
     @Override
     public void hide() {
-        selectedCardTitle = null;
+        selectedCardIndex = -1;
     }
 
     @Override
@@ -203,9 +226,9 @@ public class DashboardScreen implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 touchWorldPos = mapScreenXYtoWorldXY(new Vector2(screenX, screenY));
-        for (int i = 0; i < cardBounds.length; i++) {
-            if (isInsideBounds(touchWorldPos, cardBounds[i])) {
-                selectedCardTitle = cardTitles[i];
+        for (int i = 0; i < optionCardRectangles.length; i++) {
+            if (optionCardRectangles[i].contains(touchWorldPos)) {
+                selectedCardIndex = i;
                 return true;
             }
         }
@@ -215,16 +238,10 @@ public class DashboardScreen implements Screen, InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         Vector2 touchWorldPos = mapScreenXYtoWorldXY(new Vector2(screenX, screenY));
-        for (int i = 0; i < cardTitles.length; i++) {
-            if (cardTitles[i].equals(selectedCardTitle) && isInsideBounds(touchWorldPos, cardBounds[i])) {
-                if (selectedCardTitle.equals("Character List")) {
-                    commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.CHARACTER_LIST));
-                    return true;
-                }
-                else if (selectedCardTitle.equals("World Map")) {
-                    commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.WORLD_MAP));
-                    return true;
-                }
+        for (int i = 0; i < optionCardTitles.length; i++) {
+            if (i == selectedCardIndex && optionCardRectangles[i].contains(touchWorldPos)) {
+                commandList.addCommand(optionCardCommands[i]);
+                return true;
             }
         }
         return false;
@@ -264,9 +281,4 @@ public class DashboardScreen implements Screen, InputProcessor {
         );
     }
 
-    private boolean isInsideBounds(Vector2 coordinates, Vector2[] bounds) {
-        boolean containedX = bounds[0].x <= coordinates.x && bounds[0].x + bounds[1].x >= coordinates.x;
-        boolean containedY = bounds[0].y <= coordinates.y && bounds[0].y + bounds[1].y >= coordinates.y;
-        return (containedX && containedY);
-    }
 }

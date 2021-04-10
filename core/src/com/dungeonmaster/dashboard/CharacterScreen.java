@@ -184,7 +184,7 @@ public class CharacterScreen implements Screen, InputProcessor {
                 batch,
                 String.format(
                         "%s\nPosition (%.0f, %.0f)",
-                        character.getZone().getName().toString(),
+                        character.getZone().getLabel().toString(),
                         character.getZonePosition().x,
                         character.getZonePosition().y
                 ),

@@ -3,7 +3,7 @@ package com.dungeonmaster.dashboard;
 public class SwitchScreenCommand extends Command {
 
     public enum ScreenType {
-        DASHBOARD, WORLD_MAP, ZONE, CHARACTER_LIST, CHARACTER
+        OPTION_CARD, WORLD_MAP, ZONE, CHARACTER_LIST, CHARACTER
     }
 
     private final ScreenType newScreenType;
