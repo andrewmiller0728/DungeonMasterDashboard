@@ -1,7 +1,7 @@
 package com.dungeonmaster.dashboard;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 
 public class PlayerCharacter extends Character {
 
@@ -14,7 +14,8 @@ public class PlayerCharacter extends Character {
             String playerName,
             String charName,
             Texture icon,
-            Vector3 loc,
+            Zone zone,
+            Vector2 loc,
             CharacterBackground background,
             int[] abilityScores,
             AlignmentX alignX,
@@ -24,7 +25,7 @@ public class PlayerCharacter extends Character {
             String bonds,
             String flaws
     ) {
-        super(charName, icon, loc, background, abilityScores, alignX, alignY, speed);
+        super(charName, icon, zone, loc, background, abilityScores, alignX, alignY, speed);
         this.playerName = playerName;
         this.ideals = ideals;
         this.bonds = bonds;

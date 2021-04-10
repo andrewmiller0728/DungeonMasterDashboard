@@ -183,10 +183,10 @@ public class CharacterScreen implements Screen, InputProcessor {
         segoePrint24.draw(
                 batch,
                 String.format(
-                        "Zone %.0f, Point (%.0f, %.0f)",
-                        character.getLocation().x,
-                        character.getLocation().y,
-                        character.getLocation().z
+                        "%s\nPosition (%.0f, %.0f)",
+                        character.getZone().getName().toString(),
+                        character.getZonePosition().x,
+                        character.getZonePosition().y
                 ),
                 (viewport.getWorldWidth() / 2f) + 128f,
                 viewport.getWorldHeight() - 128f
@@ -197,14 +197,14 @@ public class CharacterScreen implements Screen, InputProcessor {
                 batch,
                 "Carrying:",
                 (viewport.getWorldWidth() / 2f) + 96f,
-                viewport.getWorldHeight() - 180f
+                viewport.getWorldHeight() - 220f
         );
         for (int i = 0; i < character.getInventory().size(); i++) {
             segoePrint24.draw(
                     batch,
                     character.getInventory().get(i).getName(),
                     (viewport.getWorldWidth() / 2f) + 128f,
-                    viewport.getWorldHeight() - (232f + (40 * i))
+                    viewport.getWorldHeight() - (272f + (40 * i))
             );
         }
 

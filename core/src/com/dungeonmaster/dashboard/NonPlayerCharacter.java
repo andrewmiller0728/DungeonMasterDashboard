@@ -1,6 +1,7 @@
 package com.dungeonmaster.dashboard;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class NonPlayerCharacter extends Character {
@@ -8,17 +9,18 @@ public class NonPlayerCharacter extends Character {
     public NonPlayerCharacter(
             String name,
             Texture icon,
-            Vector3 loc,
+            Zone zone,
+            Vector2 loc,
             CharacterBackground background,
             int[] abilityScores,
             AlignmentX alignX,
             AlignmentY alignY,
             int speed
     ) {
-        super(name, icon, loc, background, abilityScores, alignX, alignY, speed);
+        super(name, icon, zone, loc, background, abilityScores, alignX, alignY, speed);
     }
 
-    public NonPlayerCharacter(String name, Texture icon, Vector3 loc) {
-        super(name, icon, loc);
+    public NonPlayerCharacter(String name, Texture icon, Zone zone, Vector2 loc) {
+        super(name, icon, zone, loc);
     }
 }

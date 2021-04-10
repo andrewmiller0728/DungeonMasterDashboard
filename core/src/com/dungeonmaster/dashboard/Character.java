@@ -1,6 +1,7 @@
 package com.dungeonmaster.dashboard;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
@@ -9,7 +10,8 @@ public class Character {
 
     private String name;
     private Texture icon;
-    private Vector3 location;
+    private Zone zone;
+    private Vector2 zonePosition;
     private int maxHitPoints;
     private int currHitPoints;
     private CharacterBackground background;
@@ -24,7 +26,8 @@ public class Character {
     public Character(
             String name,
             Texture icon,
-            Vector3 loc,
+            Zone zone,
+            Vector2 loc,
             CharacterBackground background,
             int[] abilityScores,
             AlignmentX alignX,
@@ -33,7 +36,8 @@ public class Character {
     ) {
         this.name = name;
         this.icon = icon;
-        location = loc;
+        this.zone = zone;
+        zonePosition = loc;
         this.background = background;
         this.abilityScores = new AbilityScores(abilityScores);
         alignmentX = alignX;
@@ -49,10 +53,11 @@ public class Character {
         experience = 0;
     }
 
-    public Character(String name, Texture icon, Vector3 loc) {
+    public Character(String name, Texture icon, Zone zone, Vector2 loc) {
         this.name = name;
         this.icon = icon;
-        location = loc;
+        this.zone = zone;
+        zonePosition = loc;
         this.abilityScores = new AbilityScores();
 
         Dice dice = new Dice();
@@ -152,8 +157,12 @@ public class Character {
         return abilityScores;
     }
 
-    public Vector3 getLocation() {
-        return location;
+    public Zone getZone() {
+        return zone;
+    }
+
+    public Vector2 getZonePosition() {
+        return zonePosition;
     }
 
     public int getMaxHitPoints() {
@@ -193,8 +202,8 @@ public class Character {
 
     // Movement
 
-    public void move(Vector3 moveVector) {
-        location.add(moveVector);
+    public void move(Vector2 moveVector) {
+        zonePosition.add(moveVector);
     }
 
 

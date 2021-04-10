@@ -38,28 +38,11 @@ public class WorldMapScreen implements Screen, InputProcessor {
     private static CommandList commandList;
     private static ZoneList zoneList;
     private ArrayList<Character> characters;
-//    private ArrayList<Vector2> zoneCoordinates;
-//    private ArrayList<String> zoneNames;
 
     public WorldMapScreen() {
         commandList = new CommandList();
         zoneList = new ZoneList();
         characters = null;
-
-//        zoneCoordinates = new ArrayList<>();
-//        zoneNames = new ArrayList<>();
-//        zoneCoordinates.add(new Vector2(537, 471));
-//        zoneNames.add("Lane Stadium");
-//        zoneCoordinates.add(new Vector2(496, 565));
-//        zoneNames.add("Drillfield");
-//        zoneCoordinates.add(new Vector2(393, 646));
-//        zoneNames.add("University City");
-//        zoneCoordinates.add(new Vector2(525, 768));
-//        zoneNames.add("Food Lion");
-//        zoneCoordinates.add(new Vector2(698, 434));
-//        zoneNames.add("Cookout");
-//        zoneCoordinates.add(new Vector2(258, 404));
-//        zoneNames.add("Foxridge");
     }
 
     public void setCharacters(ArrayList<Character> characters) {
@@ -148,12 +131,6 @@ public class WorldMapScreen implements Screen, InputProcessor {
         }
         shapeRenderer.end();
 
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//        for (int i = 0; i < zoneCoordinates.size(); i++) {
-//            drawMarkerCircle(zoneCoordinates.get(i).x, zoneCoordinates.get(i).y, CIRCLE_RADIUS);
-//        }
-//        shapeRenderer.end();
-
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         for (int i = 0; i < zoneList.getSize(); i++) {
             Zone currZone = zoneList.getZone(i);
@@ -168,19 +145,6 @@ public class WorldMapScreen implements Screen, InputProcessor {
         }
         shapeRenderer.end();
 
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        for (int i = 0; i < zoneCoordinates.size(); i++) {
-//            GlyphLayout nameText = new GlyphLayout();
-//            nameText.setText(segoePrint18, zoneNames.get(i));
-//            drawLabelBox(
-//                    zoneCoordinates.get(i).x,
-//                    zoneCoordinates.get(i).y - CIRCLE_RADIUS,
-//                    nameText.width + DEFAULT_PADDING,
-//                    nameText.height + DEFAULT_PADDING * 1.5f
-//            );
-//        }
-//        shapeRenderer.end();
-
         batch.begin();
         for (int i = 0; i < zoneList.getSize(); i++) {
             Zone currZone = zoneList.getZone(i);
@@ -194,19 +158,6 @@ public class WorldMapScreen implements Screen, InputProcessor {
             );
         }
         batch.end();
-
-//        batch.begin();
-//        for (int i = 0; i < zoneNames.size(); i++) {
-//            GlyphLayout nameText = new GlyphLayout();
-//            nameText.setText(segoePrint18, zoneNames.get(i));
-//            segoePrint18.draw(
-//                    batch,
-//                    nameText,
-//                    zoneCoordinates.get(i).x - (nameText.width / 2f),
-//                    zoneCoordinates.get(i).y - CIRCLE_RADIUS + nameText.height / 2f
-//            );
-//        }
-//        batch.end();
     }
 
     private void drawMarkerCircle(float centerX, float centerY, int circleRadius) {

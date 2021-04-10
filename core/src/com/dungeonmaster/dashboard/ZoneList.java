@@ -22,4 +22,24 @@ public class ZoneList {
         return zones.get(index);
     }
 
+    public Zone getZone(Zone.ZoneLabel name) {
+        for (int i = 0; i < zones.size(); i++) {
+            if (zones.get(i).getName() == (name)) {
+                return zones.get(i);
+            }
+        }
+        return null;
+    }
+
+    public void printList() {
+        System.out.println("Zone List:");
+        for (int i = 0; i < zones.size(); i++) {
+            System.out.printf(
+                    "\tZone %d: \"%s\"",
+                    zones.get(i).getID(),
+                    zones.get(i).getName().toString()
+            );
+        }
+    }
+
 }

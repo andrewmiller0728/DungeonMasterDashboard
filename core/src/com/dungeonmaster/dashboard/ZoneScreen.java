@@ -119,37 +119,23 @@ public class ZoneScreen implements Screen, InputProcessor {
 
         // TODO: Fill in tiles containing characters with something to denote the character
         Vector2 dimensionsInTiles = zone.getDimensionsInTiles();
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(90f / 255f, 200f / 255f, 255f / 255f, 1f);
-        for (int i = 0; i < characters.size(); i++) {
-            Character currCharacter = characters.get(i);
-            Rectangle tile = new Rectangle();
-            tile.setSize(
-                    (viewport.getWorldWidth() - (DEFAULT_MARGIN * 2f)) / dimensionsInTiles.x,
-                    (viewport.getWorldHeight() - (DEFAULT_MARGIN * 2f)) / dimensionsInTiles.y
-            );
-            tile.setPosition(
-                    DEFAULT_MARGIN + (currCharacter.getLocation().y * tile.width),
-                    DEFAULT_MARGIN + (currCharacter.getLocation().z * tile.height)
-            );
-            shapeRenderer.rect(tile.x, tile.y, tile.width, tile.height);
-        }
-        shapeRenderer.end();
-
         batch.begin();
         for (int i = 0; i < characters.size(); i++) {
             Character currCharacter = characters.get(i);
-            Sprite currSprite = characterSprites.get(i);
-            currSprite.setSize(
-                    (viewport.getWorldWidth() - (DEFAULT_MARGIN * 2f)) / dimensionsInTiles.x,
-                    (viewport.getWorldHeight() - (DEFAULT_MARGIN * 2f)) / dimensionsInTiles.y
-            );
-            currSprite.setPosition(
-                    DEFAULT_MARGIN + (currCharacter.getLocation().y * currSprite.getWidth()),
-                    DEFAULT_MARGIN + (currCharacter.getLocation().z * currSprite.getHeight())
-            );
-            currSprite.draw(batch);
+//            System.out.printf("Character %s in zone %s\n", currCharacter.getName(), currCharacter.getZone());
+//            System.out.println("CharacterZone=" + currCharacter.getZone());
+            if (currCharacter.getZone().equals(zone)) {
+                Sprite currSprite = characterSprites.get(i);
+                currSprite.setSize(
+                        (viewport.getWorldWidth() - (DEFAULT_MARGIN * 2f)) / dimensionsInTiles.x,
+                        (viewport.getWorldHeight() - (DEFAULT_MARGIN * 2f)) / dimensionsInTiles.y
+                );
+                currSprite.setPosition(
+                        DEFAULT_MARGIN + (currCharacter.getZonePosition().x * currSprite.getWidth()),
+                        DEFAULT_MARGIN + (currCharacter.getZonePosition().y * currSprite.getHeight())
+                );
+                currSprite.draw(batch);
+            }
         }
         batch.end();
 

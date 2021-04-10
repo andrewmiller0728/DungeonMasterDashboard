@@ -51,6 +51,10 @@ public class Zone {
         this.characters = characters;
     }
 
+    public int getID() {
+        return id;
+    }
+
     public ZoneLabel getName() {
         return name;
     }

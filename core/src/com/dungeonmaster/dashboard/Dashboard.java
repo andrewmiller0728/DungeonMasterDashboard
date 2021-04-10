@@ -62,96 +62,23 @@ public class Dashboard extends Game implements InputProcessor {
 		segoePrint32 = new BitmapFont(Gdx.files.internal("./segoe-print-32px.fnt"));
 		segoePrint32.setColor(0f, 0f, 0f, 1f);
 
+		zoneList = generateTestZones();
 		characters = generateTestCharacters();
 
 		commandList = new CommandList();
 		commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.DASHBOARD));
-		zoneList = generateTestZones();
 
 		String[] cardTitles = {"World Map", "Character List"};
 		dashboardScreen = new DashboardScreen(cardTitles);
 		worldMapScreen = new WorldMapScreen();
 		worldMapScreen.setCharacters(characters);
 		zoneScreen = new ZoneScreen();
+		zoneScreen.setCharacters(characters);
 		characterListScreen = new CharacterListScreen();
 		characterListScreen.setCharacters(characters);
 		characterScreen = new CharacterScreen();
 
 		backButtonRect = new Rectangle();
-	}
-
-	private ArrayList<Character> generateTestCharacters() {
-		ArrayList<Character> characters = new ArrayList<>();
-		NonPlayerCharacter characterA = new NonPlayerCharacter(
-				"Michael Dorn",
-				new Texture("./character-art/survivors/survivor-male-01.jpg"),
-				new Vector3(0,6,9)
-		);
-		characterA.addItem(new Item("Baseball Bat", 10, 5));
-		characterA.addItem(new Item("Can of SPAM", 10, 5));
-		characterA.addItem(new Item("Backpack", 10, 5));
-		characters.add(characterA);
-
-		NonPlayerCharacter characterB = new NonPlayerCharacter(
-				"Amy Buck",
-				new Texture("./character-art/survivors/survivor-female-01.jpg"),
-				new Vector3(0,12,2)
-		);
-		characters.add(characterB);
-
-		NonPlayerCharacter characterC = new NonPlayerCharacter(
-				"Steven Ram",
-				new Texture("./character-art/survivors/survivor-male-02.jpg"),
-				new Vector3(0,4,2)
-		);
-		characters.add(characterC);
-
-		int[] characterDAbilityScores = {14, 13, 12, 11, 11, 9};
-		PlayerCharacter characterD = new PlayerCharacter(
-				"Andrew",
-				"Wayne Dwayne",
-				new Texture("./character-art/survivors/survivor-male-03.jpg"),
-				new Vector3(0, 0, 1),
-				CharacterBackground.ENTERTAINER,
-				characterDAbilityScores,
-				AlignmentX.CHAOTIC,
-				AlignmentY.NEUTRAL,
-				30,
-				"Ideals",
-				"Bonds",
-				"Flaws"
-		);
-		characters.add(characterD);
-
-		NonPlayerCharacter characterE = new NonPlayerCharacter(
-				"Carly Smith",
-				new Texture("./character-art/survivors/survivor-female-02.jpg"),
-				new Vector3(0,10,15)
-		);
-		characters.add(characterE);
-
-		NonPlayerCharacter characterF = new NonPlayerCharacter(
-				"Character F",
-				new Texture("./character-art/survivors/survivor-agender-01.jpg"),
-				new Vector3(0,0,0)
-		);
-		characters.add(characterF);
-
-		NonPlayerCharacter characterG = new NonPlayerCharacter(
-				"Taylor Smith",
-				new Texture("./character-art/survivors/survivor-agender-02.jpg"),
-				new Vector3(0,9,11)
-		);
-		characters.add(characterG);
-
-		NonPlayerCharacter characterH = new NonPlayerCharacter(
-				"Joe McGee",
-				new Texture("./character-art/survivors/survivor-male-04.jpg"),
-				new Vector3(0,4,20)
-		);
-		characters.add(characterH);
-
-		return characters;
 	}
 
 	private ZoneList generateTestZones() {
@@ -205,6 +132,91 @@ public class Dashboard extends Game implements InputProcessor {
 				)
 		);
 		return tempList;
+	}
+
+	private ArrayList<Character> generateTestCharacters() {
+		System.out.println("[Game]    Generating Test Characters");
+		System.out.printf("");
+
+		ArrayList<Character> characters = new ArrayList<>();
+		NonPlayerCharacter characterA = new NonPlayerCharacter(
+				"Michael Dorn",
+				new Texture("./character-art/survivors/survivor-male-01.jpg"),
+				zoneList.getZone(Zone.ZoneLabel.DRILLFIELD),
+				new Vector2(3,4)
+		);
+		characterA.addItem(new Item("Baseball Bat", 10, 5));
+		characterA.addItem(new Item("Can of SPAM", 10, 5));
+		characterA.addItem(new Item("Backpack", 10, 5));
+		characters.add(characterA);
+
+		NonPlayerCharacter characterB = new NonPlayerCharacter(
+				"Amy Buck",
+				new Texture("./character-art/survivors/survivor-female-01.jpg"),
+				zoneList.getZone(Zone.ZoneLabel.FOXRIDGE),
+				new Vector2(12,2)
+		);
+		characters.add(characterB);
+
+		NonPlayerCharacter characterC = new NonPlayerCharacter(
+				"Steven Ram",
+				new Texture("./character-art/survivors/survivor-male-02.jpg"),
+				zoneList.getZone(Zone.ZoneLabel.FOXRIDGE),
+				new Vector2(4,2)
+		);
+		characters.add(characterC);
+
+		int[] characterDAbilityScores = {14, 13, 12, 11, 11, 9};
+		PlayerCharacter characterD = new PlayerCharacter(
+				"Andrew",
+				"Wayne Dwayne",
+				new Texture("./character-art/survivors/survivor-male-03.jpg"),
+				zoneList.getZone(Zone.ZoneLabel.COOKOUT),
+				new Vector2(10, 1),
+				CharacterBackground.ENTERTAINER,
+				characterDAbilityScores,
+				AlignmentX.CHAOTIC,
+				AlignmentY.NEUTRAL,
+				30,
+				"Ideals",
+				"Bonds",
+				"Flaws"
+		);
+		characters.add(characterD);
+
+		NonPlayerCharacter characterE = new NonPlayerCharacter(
+				"Carly Williams",
+				new Texture("./character-art/survivors/survivor-female-02.jpg"),
+				zoneList.getZone(Zone.ZoneLabel.LANE_STADIUM),
+				new Vector2(10,15)
+		);
+		characters.add(characterE);
+
+		NonPlayerCharacter characterF = new NonPlayerCharacter(
+				"Character F",
+				new Texture("./character-art/survivors/survivor-agender-01.jpg"),
+				zoneList.getZone(Zone.ZoneLabel.LANE_STADIUM),
+				new Vector2(0,0)
+		);
+		characters.add(characterF);
+
+		NonPlayerCharacter characterG = new NonPlayerCharacter(
+				"Taylor Smith",
+				new Texture("./character-art/survivors/survivor-agender-02.jpg"),
+				zoneList.getZone(Zone.ZoneLabel.UNIVERSITY_CITY),
+				new Vector2(9,11)
+		);
+		characters.add(characterG);
+
+		NonPlayerCharacter characterH = new NonPlayerCharacter(
+				"Joe McGee",
+				new Texture("./character-art/survivors/survivor-male-04.jpg"),
+				zoneList.getZone(Zone.ZoneLabel.UNIVERSITY_CITY),
+				new Vector2(4,18)
+		);
+		characters.add(characterH);
+
+		return characters;
 	}
 
 	@Override
