@@ -6,10 +6,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,8 +21,8 @@ import java.util.ArrayList;
 
 public class ZoneScreen implements Screen, InputProcessor {
 
-    private final static float MARGIN = 64;
-    private final static float LINE_WIDTH = 4;
+    private final static float DEFAULT_MARGIN = 96;
+    private final static float DEFAULT_PADDING = 12;
 
     private Viewport viewport;
     private OrthographicCamera camera;
@@ -27,27 +30,34 @@ public class ZoneScreen implements Screen, InputProcessor {
     private Sprite paper;
     private ShapeRenderer shapeRenderer;
 
+    private BitmapFont segoePrint32;
+
     private ArrayList<Character> characters;
-    private int zoneIndex;
-    private int feetPerBox;
-    private int feetPerZone;
+    private ArrayList<Sprite> characterSprites;
+    private Character selectedCharacter;
+    private Zone zone;
+
+    private static CommandList commandList;
 
     public ZoneScreen() {
         super();
         characters = null;
-        zoneIndex = 0;
-        feetPerBox = 30;
-        feetPerZone = 5280;
+        characterSprites = null;
+        selectedCharacter = null;
+        zone = null;
+        commandList = new CommandList();
     }
 
     public void setCharacters(ArrayList<Character> characters) {
         this.characters = characters;
+        characterSprites = new ArrayList<>();
+        for (Character character : characters) {
+            characterSprites.add(new Sprite(character.getIcon()));
+        }
     }
 
-    public void setZoneParameters(int zoneIndex, int feetPerBox, int feetPerZone) {
-        this.zoneIndex = zoneIndex;
-        this.feetPerBox = feetPerBox;
-        this.feetPerZone = feetPerZone;
+    public void setZone(Zone zone) {
+        this.zone = zone;
     }
 
     @Override
@@ -55,7 +65,7 @@ public class ZoneScreen implements Screen, InputProcessor {
         System.out.print("[Screen]    Showing ZoneScreen\n");
 
         camera = new OrthographicCamera();
-        viewport = new FitViewport(2000f, 2000f, camera);
+        viewport = new FitViewport(1000f, 1000f, camera);
         viewport.apply();
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
 
@@ -76,6 +86,9 @@ public class ZoneScreen implements Screen, InputProcessor {
 
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
+
+        segoePrint32 = new BitmapFont(Gdx.files.internal("./segoe-print-32px.fnt"));
+        segoePrint32.setColor(0f, 0f, 0f, 1f);
     }
 
     @Override
@@ -88,42 +101,84 @@ public class ZoneScreen implements Screen, InputProcessor {
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         batch.begin();
+
+        // Paper Background
         paper.draw(batch);
+
+        // Header Text
+        GlyphLayout headerText = new GlyphLayout();
+        headerText.setText(segoePrint32, zone.getName().toString());
+        segoePrint32.draw(
+                batch,
+                headerText,
+                paper.getOriginX() - headerText.width / 2f,
+                viewport.getWorldHeight() - (DEFAULT_MARGIN / 4f) - headerText.height
+        );
+
         batch.end();
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        // TODO: Fill in tiles containing characters with something to denote the character
+        Vector2 dimensionsInTiles = zone.getDimensionsInTiles();
 
-        int boxCount = (feetPerZone / feetPerBox);
-        float pixelsPerBox = MathUtils.map(0, feetPerZone, 0, viewport.getWorldWidth() - MARGIN, feetPerBox);
-        shapeRenderer.setColor(0.25f, 0.5f, 1f, 1f);
-        for (int i = 0; i < boxCount; i++) {
-            for (int j = 0; j < boxCount; j++) {
-                for (Character character : characters) {
-                    if (character.getLocation().x == zoneIndex && character.getLocation().y == j && character.getLocation().z == i) {
-                        shapeRenderer.rect(
-                                MARGIN + (j * (pixelsPerBox - LINE_WIDTH)),
-                                MARGIN + (i * (pixelsPerBox - LINE_WIDTH)),
-                                pixelsPerBox - LINE_WIDTH,
-                                pixelsPerBox - LINE_WIDTH
-                        );
-                    }
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(90f / 255f, 200f / 255f, 255f / 255f, 1f);
+        for (int i = 0; i < characters.size(); i++) {
+            Character currCharacter = characters.get(i);
+            Rectangle tile = new Rectangle();
+            tile.setSize(
+                    (viewport.getWorldWidth() - (DEFAULT_MARGIN * 2f)) / dimensionsInTiles.x,
+                    (viewport.getWorldHeight() - (DEFAULT_MARGIN * 2f)) / dimensionsInTiles.y
+            );
+            tile.setPosition(
+                    DEFAULT_MARGIN + (currCharacter.getLocation().y * tile.width),
+                    DEFAULT_MARGIN + (currCharacter.getLocation().z * tile.height)
+            );
+            shapeRenderer.rect(tile.x, tile.y, tile.width, tile.height);
+        }
+        shapeRenderer.end();
+
+        batch.begin();
+        for (int i = 0; i < characters.size(); i++) {
+            Character currCharacter = characters.get(i);
+            Sprite currSprite = characterSprites.get(i);
+            currSprite.setSize(
+                    (viewport.getWorldWidth() - (DEFAULT_MARGIN * 2f)) / dimensionsInTiles.x,
+                    (viewport.getWorldHeight() - (DEFAULT_MARGIN * 2f)) / dimensionsInTiles.y
+            );
+            currSprite.setPosition(
+                    DEFAULT_MARGIN + (currCharacter.getLocation().y * currSprite.getWidth()),
+                    DEFAULT_MARGIN + (currCharacter.getLocation().z * currSprite.getHeight())
+            );
+            currSprite.draw(batch);
+        }
+        batch.end();
+
+        drawGrid();
+    }
+
+    private void drawGrid() {
+        Vector2 dimensionsInTiles = zone.getDimensionsInTiles();
+        Rectangle tile = new Rectangle();
+        tile.set(
+                DEFAULT_MARGIN,
+                DEFAULT_MARGIN,
+                (viewport.getWorldWidth() - (DEFAULT_MARGIN * 2f)) / dimensionsInTiles.x,
+                (viewport.getWorldHeight() - (DEFAULT_MARGIN * 2f)) / dimensionsInTiles.y
+        );
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(81f / 255f, 81f / 255f, 81f / 255f, 1f);
+        for (int i = 0; i < dimensionsInTiles.x; i++) {
+            for (int j = 0; j < dimensionsInTiles.y; j++) {
+                for (int k = 0; k < tile.width / 12; k++) {
+                    shapeRenderer.rect(
+                            tile.x + (i * tile.width) + (k / 2f),
+                            tile.y + (j * tile.height) + (k / 2f),
+                            tile.width - k,
+                            tile.height - k
+                    );
                 }
             }
         }
-        shapeRenderer.setColor(0.5f, 0.1f, 0.1f, 1f);
-        for (int i = 0; i <= boxCount; i++) {
-            shapeRenderer.rectLine(
-                    new Vector2(MARGIN, MARGIN + (i * (pixelsPerBox - LINE_WIDTH))),
-                    new Vector2(MARGIN + (boxCount * (pixelsPerBox - LINE_WIDTH)), MARGIN + (i * (pixelsPerBox - LINE_WIDTH))),
-                    LINE_WIDTH
-            );
-            shapeRenderer.rectLine(
-                    new Vector2(MARGIN + (i * (pixelsPerBox - LINE_WIDTH)), MARGIN),
-                    new Vector2(MARGIN + (i * (pixelsPerBox - LINE_WIDTH)), MARGIN + (boxCount * (pixelsPerBox - LINE_WIDTH))),
-                    LINE_WIDTH
-            );
-        }
-
         shapeRenderer.end();
     }
 
@@ -145,13 +200,14 @@ public class ZoneScreen implements Screen, InputProcessor {
 
     @Override
     public void hide() {
-
+        selectedCharacter = null;
     }
 
     @Override
     public void dispose() {
         batch.dispose();
         shapeRenderer.dispose();
+        segoePrint32.dispose();
     }
 
     @Override
@@ -171,6 +227,14 @@ public class ZoneScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        Vector2 touchWorldPos = mapScreenXYtoWorldXY(new Vector2(screenX, screenY));
+        for (int i = 0; i < characterSprites.size(); i++) {
+            if (characterSprites.get(i).getBoundingRectangle().contains(touchWorldPos)) {
+                selectedCharacter = characters.get(i);
+                commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.CHARACTER, selectedCharacter));
+                return true;
+            }
+        }
         return false;
     }
 
@@ -192,5 +256,24 @@ public class ZoneScreen implements Screen, InputProcessor {
     @Override
     public boolean scrolled(float amountX, float amountY) {
         return false;
+    }
+
+    private Vector2 mapScreenXYtoWorldXY(Vector2 xy) {
+        return new Vector2(
+                MathUtils.map(
+                        viewport.getLeftGutterWidth(),
+                        viewport.getRightGutterX(),
+                        0f,
+                        viewport.getWorldWidth(),
+                        xy.x
+                ),
+                MathUtils.map(
+                        viewport.getTopGutterY(),
+                        viewport.getBottomGutterHeight(),
+                        0f,
+                        viewport.getWorldHeight(),
+                        xy.y
+                )
+        );
     }
 }

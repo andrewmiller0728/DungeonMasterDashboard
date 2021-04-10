@@ -36,26 +36,34 @@ public class WorldMapScreen implements Screen, InputProcessor {
     private ShapeRenderer shapeRenderer;
 
     private static CommandList commandList;
-    private ArrayList<Vector2> zoneCoordinates;
-    private ArrayList<String> zoneNames;
+    private static ZoneList zoneList;
+    private ArrayList<Character> characters;
+//    private ArrayList<Vector2> zoneCoordinates;
+//    private ArrayList<String> zoneNames;
 
     public WorldMapScreen() {
         commandList = new CommandList();
+        zoneList = new ZoneList();
+        characters = null;
 
-        zoneCoordinates = new ArrayList<>();
-        zoneNames = new ArrayList<>();
-        zoneCoordinates.add(new Vector2(537, 471));
-        zoneNames.add("Lane Stadium");
-        zoneCoordinates.add(new Vector2(496, 565));
-        zoneNames.add("Drillfield");
-        zoneCoordinates.add(new Vector2(393, 646));
-        zoneNames.add("University City");
-        zoneCoordinates.add(new Vector2(525, 768));
-        zoneNames.add("Food Lion");
-        zoneCoordinates.add(new Vector2(698, 434));
-        zoneNames.add("Cookout");
-        zoneCoordinates.add(new Vector2(258, 404));
-        zoneNames.add("Foxridge");
+//        zoneCoordinates = new ArrayList<>();
+//        zoneNames = new ArrayList<>();
+//        zoneCoordinates.add(new Vector2(537, 471));
+//        zoneNames.add("Lane Stadium");
+//        zoneCoordinates.add(new Vector2(496, 565));
+//        zoneNames.add("Drillfield");
+//        zoneCoordinates.add(new Vector2(393, 646));
+//        zoneNames.add("University City");
+//        zoneCoordinates.add(new Vector2(525, 768));
+//        zoneNames.add("Food Lion");
+//        zoneCoordinates.add(new Vector2(698, 434));
+//        zoneNames.add("Cookout");
+//        zoneCoordinates.add(new Vector2(258, 404));
+//        zoneNames.add("Foxridge");
+    }
+
+    public void setCharacters(ArrayList<Character> characters) {
+        this.characters = characters;
     }
 
     @Override
@@ -67,8 +75,6 @@ public class WorldMapScreen implements Screen, InputProcessor {
         viewport = new FitViewport(1000f, 1000f, camera);
         viewport.apply();
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-
-        commandList = new CommandList();
 
         setBackgroundSprite(new Texture("./oldpaper.jpg"));
         setMapSprite(new Texture("./world-map-blacksburg-va.png"));
@@ -132,36 +138,75 @@ public class WorldMapScreen implements Screen, InputProcessor {
         batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        for (int i = 0; i < zoneCoordinates.size(); i++) {
-            drawMarkerCircle(zoneCoordinates.get(i).x, zoneCoordinates.get(i).y, CIRCLE_RADIUS);
+        for (int i = 0; i < zoneList.getSize(); i++) {
+            Zone currZone = zoneList.getZone(i);
+            drawMarkerCircle(
+                    currZone.getWorldMapCoords().x,
+                    currZone.getWorldMapCoords().y,
+                    CIRCLE_RADIUS
+            );
         }
         shapeRenderer.end();
 
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        for (int i = 0; i < zoneCoordinates.size(); i++) {
+//            drawMarkerCircle(zoneCoordinates.get(i).x, zoneCoordinates.get(i).y, CIRCLE_RADIUS);
+//        }
+//        shapeRenderer.end();
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        for (int i = 0; i < zoneCoordinates.size(); i++) {
+        for (int i = 0; i < zoneList.getSize(); i++) {
+            Zone currZone = zoneList.getZone(i);
             GlyphLayout nameText = new GlyphLayout();
-            nameText.setText(segoePrint18, zoneNames.get(i));
+            nameText.setText(segoePrint18, currZone.getName().toString());
             drawLabelBox(
-                    zoneCoordinates.get(i).x,
-                    zoneCoordinates.get(i).y - CIRCLE_RADIUS,
+                    currZone.getWorldMapCoords().x,
+                    currZone.getWorldMapCoords().y - CIRCLE_RADIUS,
                     nameText.width + DEFAULT_PADDING,
                     nameText.height + DEFAULT_PADDING * 1.5f
             );
         }
         shapeRenderer.end();
 
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        for (int i = 0; i < zoneCoordinates.size(); i++) {
+//            GlyphLayout nameText = new GlyphLayout();
+//            nameText.setText(segoePrint18, zoneNames.get(i));
+//            drawLabelBox(
+//                    zoneCoordinates.get(i).x,
+//                    zoneCoordinates.get(i).y - CIRCLE_RADIUS,
+//                    nameText.width + DEFAULT_PADDING,
+//                    nameText.height + DEFAULT_PADDING * 1.5f
+//            );
+//        }
+//        shapeRenderer.end();
+
         batch.begin();
-        for (int i = 0; i < zoneNames.size(); i++) {
+        for (int i = 0; i < zoneList.getSize(); i++) {
+            Zone currZone = zoneList.getZone(i);
             GlyphLayout nameText = new GlyphLayout();
-            nameText.setText(segoePrint18, zoneNames.get(i));
+            nameText.setText(segoePrint18, currZone.getName().toString());
             segoePrint18.draw(
                     batch,
                     nameText,
-                    zoneCoordinates.get(i).x - (nameText.width / 2f),
-                    zoneCoordinates.get(i).y - CIRCLE_RADIUS + nameText.height / 2f
+                    currZone.getWorldMapCoords().x - (nameText.width / 2f),
+                    currZone.getWorldMapCoords().y - CIRCLE_RADIUS + nameText.height / 2f
             );
         }
         batch.end();
+
+//        batch.begin();
+//        for (int i = 0; i < zoneNames.size(); i++) {
+//            GlyphLayout nameText = new GlyphLayout();
+//            nameText.setText(segoePrint18, zoneNames.get(i));
+//            segoePrint18.draw(
+//                    batch,
+//                    nameText,
+//                    zoneCoordinates.get(i).x - (nameText.width / 2f),
+//                    zoneCoordinates.get(i).y - CIRCLE_RADIUS + nameText.height / 2f
+//            );
+//        }
+//        batch.end();
     }
 
     private void drawMarkerCircle(float centerX, float centerY, int circleRadius) {
@@ -229,13 +274,12 @@ public class WorldMapScreen implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 touchWorldPos = mapScreenXYtoWorldXY(new Vector2(screenX, screenY));
-        System.out.printf("[Screen]    Touch at WORLD point (%.0f, %.0f)\n", touchWorldPos.x, touchWorldPos.y);
-        for (int i = 0; i < zoneCoordinates.size(); i++) {
+        for (int i = 0; i < zoneList.getSize(); i++) {
+            Zone currZone = zoneList.getZone(i);
             Circle tempCircle = new Circle();
-            tempCircle.set(zoneCoordinates.get(i).x, zoneCoordinates.get(i).y, CIRCLE_RADIUS);
+            tempCircle.set(currZone.getWorldMapCoords().x, currZone.getWorldMapCoords().y, CIRCLE_RADIUS);
             if (tempCircle.contains(touchWorldPos)) {
-                System.out.printf("Circle labeled \"%s\" clicked\n", zoneNames.get(i));
-                commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.ZONE));
+                commandList.addCommand(new SwitchScreenCommand(SwitchScreenCommand.ScreenType.ZONE, currZone));
                 return true;
             }
         }
