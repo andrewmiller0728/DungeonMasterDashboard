@@ -24,7 +24,7 @@ public class Armor extends Item {
     }
 
     public Armor(Item baseItem, int ac) {
-        super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.canEquip(), baseItem.isConsumable());
+        super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.isEquippable(), baseItem.isConsumable());
         location = Location.OTHER;
         size = Size.OTHER;
         this.ac = ac;
@@ -32,7 +32,7 @@ public class Armor extends Item {
     }
 
     public Armor(Item baseItem, int ac, boolean isStealthy) {
-        super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.canEquip(), baseItem.isConsumable());
+        super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.isEquippable(), baseItem.isConsumable());
         location = Location.OTHER;
         size = Size.OTHER;
         this.ac = ac;
@@ -40,7 +40,7 @@ public class Armor extends Item {
     }
 
     public Armor(Item baseItem, int ac, boolean isStealthy, Location location, Size size) {
-        super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.canEquip(), baseItem.isConsumable());
+        super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.isEquippable(), baseItem.isConsumable());
         this.location = location;
         this.size = size;
         this.ac = ac;

@@ -14,7 +14,7 @@ public class Ammo extends Item {
                 baseItem.getName(),
                 baseItem.getTradeValue(),
                 baseItem.getWeight(),
-                baseItem.canEquip(),
+                baseItem.isEquippable(),
                 baseItem.isConsumable()
         );
         this.quantity = quantity;

@@ -16,7 +16,7 @@ public class Aid extends Item {
                 baseItem.getName(),
                 baseItem.getTradeValue(),
                 baseItem.getWeight(),
-                baseItem.canEquip(),
+                baseItem.isEquippable(),
                 baseItem.isConsumable()
         );
         quality = 1.0f;
@@ -28,7 +28,7 @@ public class Aid extends Item {
                 baseItem.getName(),
                 baseItem.getTradeValue(),
                 baseItem.getWeight(),
-                baseItem.canEquip(),
+                baseItem.isEquippable(),
                 baseItem.isConsumable()
         );
         this.quality = quality;

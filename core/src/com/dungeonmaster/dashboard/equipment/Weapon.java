@@ -37,7 +37,7 @@ public class Weapon extends Item {
     }
 
     public Weapon(Item baseItem, Dice hitDice, Type type, boolean consumesAmmo, Vector2 range) {
-        super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.canEquip(), baseItem.isConsumable());
+        super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.isEquippable(), baseItem.isConsumable());
         this.category = Category.SIMPLE;
         this.type = type;
         this.size = Size.SMALL;
@@ -48,7 +48,7 @@ public class Weapon extends Item {
     }
 
     public Weapon(Item baseItem, Category category, Type type, Size size, Dice hitDice, boolean consumesAmmo, Vector2 range, boolean isTwoHanded) {
-        super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.canEquip(), baseItem.isConsumable());
+        super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.isEquippable(), baseItem.isConsumable());
         this.category = category;
         this.type = type;
         this.size = size;

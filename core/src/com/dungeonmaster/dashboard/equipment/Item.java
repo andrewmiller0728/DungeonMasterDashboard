@@ -6,8 +6,9 @@ public class Item {
 
     private int id;
     private String name;
-    private boolean canEquip;
+    private boolean equippable;
     private boolean consumable;
+    private boolean consumed;
     private int tradeValue;
     private int weight;
 
@@ -15,8 +16,9 @@ public class Item {
         id = nextID;
         nextID++;
         name = String.format("Item#%d", id);
-        canEquip = false;
+        equippable = false;
         consumable = false;
+        consumed = false;
         tradeValue = 0;
         weight = 0;
     }
@@ -25,8 +27,9 @@ public class Item {
         id = nextID;
         nextID++;
         this.name = name;
-        canEquip = false;
+        equippable = false;
         consumable = false;
+        consumed = false;
         this.tradeValue = tradeValue;
         this.weight = weight;
     }
@@ -35,10 +38,24 @@ public class Item {
         id = nextID;
         nextID++;
         this.name = name;
-        this.canEquip = canEquip;
+        this.equippable = canEquip;
         this.consumable = consumable;
+        consumed = false;
         this.tradeValue = tradeValue;
         this.weight = weight;
+    }
+
+    public void consume() {
+        if (consumable && !consumed) {
+            consumed = true;
+        }
+        else {
+            throw new RuntimeException("Must consume a consumable and unconsumed Item.");
+        }
+    }
+
+    public int getID() {
+        return id;
     }
 
     public String getName() {
@@ -49,12 +66,16 @@ public class Item {
         this.name = name;
     }
 
-    public boolean canEquip() {
-        return canEquip;
+    public boolean isEquippable() {
+        return equippable;
     }
 
     public boolean isConsumable() {
         return consumable;
+    }
+
+    public boolean isConsumed() {
+        return consumed;
     }
 
     public int getTradeValue() {
