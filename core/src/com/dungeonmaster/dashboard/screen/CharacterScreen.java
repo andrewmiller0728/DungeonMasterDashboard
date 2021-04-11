@@ -1,4 +1,4 @@
-package com.dungeonmaster.dashboard;
+package com.dungeonmaster.dashboard.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -14,6 +14,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.dungeonmaster.dashboard.command.CommandList;
+import com.dungeonmaster.dashboard.character.AbilityScores;
+import com.dungeonmaster.dashboard.character.Character;
+import com.dungeonmaster.dashboard.character.PlayerCharacter;
 
 public class CharacterScreen implements Screen, InputProcessor {
 
@@ -155,8 +159,8 @@ public class CharacterScreen implements Screen, InputProcessor {
         );
 
         // Character Ability Scores
-        String[] abilityNames = Abilities.getAbilityStrings();
-        for (int i = 0; i < Abilities.SCORE_COUNT; i++) {
+        String[] abilityNames = AbilityScores.getAbilityStrings();
+        for (int i = 0; i < AbilityScores.SCORE_COUNT; i++) {
             String currAbilityScore = String.format("%2d", character.getAbilityScores().getScore(i));
             segoePrint32.draw(
                     batch,
@@ -192,21 +196,7 @@ public class CharacterScreen implements Screen, InputProcessor {
                 viewport.getWorldHeight() - 128f
         );
 
-        // Character Inventory
-        segoePrint32.draw(
-                batch,
-                "Carrying:",
-                (viewport.getWorldWidth() / 2f) + 96f,
-                viewport.getWorldHeight() - 220f
-        );
-        for (int i = 0; i < character.getInventory().size(); i++) {
-            segoePrint24.draw(
-                    batch,
-                    character.getInventory().get(i).getName(),
-                    (viewport.getWorldWidth() / 2f) + 128f,
-                    viewport.getWorldHeight() - (272f + (40 * i))
-            );
-        }
+        // TODO: Render character inventory
 
         // PlayerCharacter Only Information
         if (character.getClass().equals(PlayerCharacter.class)) {

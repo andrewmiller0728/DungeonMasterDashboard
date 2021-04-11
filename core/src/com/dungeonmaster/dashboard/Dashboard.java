@@ -16,8 +16,19 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.dungeonmaster.dashboard.character.*;
+import com.dungeonmaster.dashboard.character.Character;
+import com.dungeonmaster.dashboard.command.Command;
+import com.dungeonmaster.dashboard.command.CommandList;
+import com.dungeonmaster.dashboard.command.SwitchScreenCommand;
+import com.dungeonmaster.dashboard.screen.*;
+import com.dungeonmaster.dashboard.zone.Zone;
+import com.dungeonmaster.dashboard.zone.ZoneList;
 
 import java.util.ArrayList;
+
+import static com.dungeonmaster.dashboard.character.Character.AlignmentX.CHAOTIC;
+import static com.dungeonmaster.dashboard.character.Character.AlignmentY.NEUTRAL;
 
 public class Dashboard extends Game implements InputProcessor {
 
@@ -156,9 +167,6 @@ public class Dashboard extends Game implements InputProcessor {
 				zoneList.getZone(Zone.ZoneLabel.DRILLFIELD),
 				new Vector2(3,4)
 		);
-		characterA.addItem(new Item("Baseball Bat", 10, 5));
-		characterA.addItem(new Item("Can of SPAM", 10, 5));
-		characterA.addItem(new Item("Backpack", 10, 5));
 		characters.add(characterA);
 
 		NonPlayerCharacter characterB = new NonPlayerCharacter(
@@ -186,8 +194,8 @@ public class Dashboard extends Game implements InputProcessor {
 				new Vector2(10, 1),
 				CharacterBackground.ENTERTAINER,
 				characterDAbilityScores,
-				AlignmentX.CHAOTIC,
-				AlignmentY.NEUTRAL,
+				CHAOTIC,
+				NEUTRAL,
 				30,
 				"Ideals",
 				"Bonds",

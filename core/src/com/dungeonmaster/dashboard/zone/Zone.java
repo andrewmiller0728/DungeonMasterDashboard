@@ -1,6 +1,7 @@
-package com.dungeonmaster.dashboard;
+package com.dungeonmaster.dashboard.zone;
 
 import com.badlogic.gdx.math.Vector2;
+import com.dungeonmaster.dashboard.character.Character;
 
 import java.util.ArrayList;
 

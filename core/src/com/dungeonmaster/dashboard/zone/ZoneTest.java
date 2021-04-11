@@ -1,4 +1,4 @@
-package com.dungeonmaster.dashboard;
+package com.dungeonmaster.dashboard.zone;
 
 import com.badlogic.gdx.math.Vector2;
 

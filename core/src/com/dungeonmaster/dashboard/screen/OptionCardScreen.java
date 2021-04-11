@@ -1,4 +1,4 @@
-package com.dungeonmaster.dashboard;
+package com.dungeonmaster.dashboard.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -16,6 +16,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.dungeonmaster.dashboard.command.Command;
+import com.dungeonmaster.dashboard.command.CommandList;
 
 public class OptionCardScreen implements Screen, InputProcessor {
 
@@ -65,14 +67,13 @@ public class OptionCardScreen implements Screen, InputProcessor {
         System.out.print("[Screen]    Showing DashboardScreen\n");
 
         batch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
         camera = new OrthographicCamera();
         viewport = new FitViewport(1000f, 1000f, camera);
         viewport.apply();
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
 
         commandList = new CommandList();
-
-        setBackgroundSprite(new Texture("./oldpaper.jpg"));
 
         segoePrint32 = new BitmapFont(Gdx.files.internal("./segoe-print-32px.fnt"));
         segoePrint32.setColor(0f, 0f, 0f, 1f);
@@ -81,7 +82,7 @@ public class OptionCardScreen implements Screen, InputProcessor {
         segoePrint18 = new BitmapFont(Gdx.files.internal("./segoe-print-18px.fnt"));
         segoePrint18.setColor(0f, 0f, 0f, 1f);
 
-        shapeRenderer = new ShapeRenderer();
+        setBackgroundSprite(new Texture("./oldpaper.jpg"));
 
         // Create rectangle boundaries for option cards
         for (int i = 0; i < optionCardTitles.length; i++) {

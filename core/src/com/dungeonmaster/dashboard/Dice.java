@@ -5,9 +5,23 @@ import java.util.Random;
 public class Dice {
 
     private static Random random;
+    private int quantity;
+    private int sides;
 
     public Dice() {
         random = new Random();
+        this.quantity = 1;
+        this.sides = 1;
+    }
+
+    public Dice(int quantity, int sides) {
+        random = new Random();
+        this.quantity = quantity;
+        this.sides = sides;
+    }
+
+    public int rollDice() {
+        return rollmDn(quantity, sides);
     }
 
     public int rollDn(int sides) {

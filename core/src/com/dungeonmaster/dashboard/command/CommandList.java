@@ -1,4 +1,4 @@
-package com.dungeonmaster.dashboard;
+package com.dungeonmaster.dashboard.command;
 
 import java.util.ArrayList;
 

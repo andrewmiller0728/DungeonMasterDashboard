@@ -1,7 +1,8 @@
-package com.dungeonmaster.dashboard;
+package com.dungeonmaster.dashboard.character;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.dungeonmaster.dashboard.zone.Zone;
 
 public class PlayerCharacter extends Character {
 

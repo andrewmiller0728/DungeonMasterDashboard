@@ -1,11 +1,19 @@
-package com.dungeonmaster.dashboard;
+package com.dungeonmaster.dashboard.character;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-
-import java.util.ArrayList;
+import com.dungeonmaster.dashboard.Dice;
+import com.dungeonmaster.dashboard.zone.Zone;
 
 public class Character {
+
+    public enum AlignmentX {
+        LAWFUL, NEUTRAL, CHAOTIC
+    }
+
+    public enum AlignmentY {
+        GOOD, NEUTRAL, EVIL
+    }
 
     private String name;
     private Texture icon;
@@ -17,7 +25,6 @@ public class Character {
     private AbilityScores abilityScores;
     private AlignmentX alignmentX;
     private AlignmentY alignmentY;
-    private ArrayList<Item> inventory;
     private int speed;
     private int level;
     private int experience;
@@ -42,10 +49,9 @@ public class Character {
         alignmentX = alignX;
         alignmentY = alignY;
 
-        maxHitPoints = 8 + (this.abilityScores.getScore(Abilities.CONSTITUTION) / 2);
+        maxHitPoints = 8 + (this.abilityScores.getScore(AbilityScores.Ability.CONSTITUTION) / 2);
         currHitPoints = maxHitPoints;
 
-        inventory = new ArrayList<>();
         this.speed = speed;
 
         level = 1;
@@ -127,10 +133,9 @@ public class Character {
                 break;
         }
 
-        maxHitPoints = 8 + (this.abilityScores.getScore(Abilities.CONSTITUTION) / 2);
+        maxHitPoints = 8 + (this.abilityScores.getScore(AbilityScores.Ability.CONSTITUTION) / 2);
         currHitPoints = maxHitPoints;
 
-        inventory = new ArrayList<>();
         speed = 30;
 
         level = 1;
@@ -188,9 +193,6 @@ public class Character {
         return alignmentY;
     }
 
-    public ArrayList<Item> getInventory() {
-        return inventory;
-    }
 
     // Combat
 
@@ -208,20 +210,9 @@ public class Character {
 
     // Abilities
 
-    public boolean abilityCheck(Abilities ability, int dc) {
+    public boolean abilityCheck(AbilityScores.Ability ability, int dc) {
         Dice dice = new Dice();
         return (dice.rollDn(20) + abilityScores.getModifier(ability)) >= dc;
-    }
-
-
-    // Inventory
-
-    public void addItem(Item item) {
-        inventory.add(item);
-    }
-
-    public void removeItem(Item item) {
-        inventory.remove(item);
     }
 
 }

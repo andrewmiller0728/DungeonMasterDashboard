@@ -1,4 +1,4 @@
-package com.dungeonmaster.dashboard;
+package com.dungeonmaster.dashboard.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -16,6 +16,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.dungeonmaster.dashboard.command.CommandList;
+import com.dungeonmaster.dashboard.command.SwitchScreenCommand;
+import com.dungeonmaster.dashboard.zone.Zone;
+import com.dungeonmaster.dashboard.zone.ZoneList;
+import com.dungeonmaster.dashboard.character.Character;
 
 import java.util.ArrayList;
 
