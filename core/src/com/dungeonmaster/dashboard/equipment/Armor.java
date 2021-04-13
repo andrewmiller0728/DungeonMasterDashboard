@@ -55,7 +55,7 @@ public class Armor extends Item {
         return size;
     }
 
-    public int getAc() {
+    public int getAC() {
         return ac;
     }
 

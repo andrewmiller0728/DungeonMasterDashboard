@@ -2,6 +2,7 @@ package com.dungeonmaster.dashboard.character;
 
 import com.dungeonmaster.dashboard.Dice;
 
+// TODO: Rename CharacterAbilityScores
 public class AbilityScores {
 
     public final static int SCORE_COUNT = 6;
@@ -27,7 +28,7 @@ public class AbilityScores {
         Dice dice = new Dice();
         scores = new int[6];
         for (int i = 0; i < scores.length; i++) {
-            scores[i] = dice.rollmDn(3, 6) + 1;
+            scores[i] = dice.rollmDn(3, 6) + 1; // +1 because all characters are human
         }
     }
 

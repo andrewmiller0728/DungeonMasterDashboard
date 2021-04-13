@@ -21,14 +21,8 @@ public class Ammo extends Item {
     }
 
     public void consumeAmmo() {
-        if (quantity >= 0) {
+        if (quantity > 0) {
             quantity--;
-        }
-    }
-
-    public void consumeAmmo(int count) {
-        if (quantity - count >= 0) {
-            quantity -= count;
         }
     }
 

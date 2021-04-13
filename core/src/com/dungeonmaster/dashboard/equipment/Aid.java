@@ -44,15 +44,6 @@ public class Aid extends Item {
         }
     }
 
-    public void use(int count) {
-        if (uses - count >= 0) {
-            uses -= count;
-        }
-        else {
-            throw new RuntimeException("Not enough Aid uses remaining");
-        }
-    }
-
     public boolean isEmpty() {
         return uses == 0;
     }

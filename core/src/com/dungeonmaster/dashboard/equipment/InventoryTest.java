@@ -8,11 +8,13 @@ public class InventoryTest {
         Item myItem = new Item("Item A", 5, 10);
         Item yourItem = new Item("Item B", 2, 15);
         Item ourItem = new Item("Item C", 30, 4);
+        Weapon sword = new Weapon();
 
         Inventory bagOfHolding = new Inventory();
-        bagOfHolding.addItem(myItem);
-        bagOfHolding.addItem(yourItem);
-        bagOfHolding.addItem(ourItem);
+        bagOfHolding.add(myItem);
+        bagOfHolding.add(yourItem);
+        bagOfHolding.add(ourItem);
+        bagOfHolding.add(sword);
 
         System.out.printf(
                 "Inventory:\n" +
@@ -23,6 +25,8 @@ public class InventoryTest {
                 bagOfHolding.getTotalAmmo(),
                 bagOfHolding.getTotalWeight()
         );
+
+        System.out.println(bagOfHolding.contains(sword));
     }
 
 }

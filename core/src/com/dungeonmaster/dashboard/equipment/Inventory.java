@@ -7,80 +7,99 @@ public class Inventory {
     private static int nextID = 0;
     private int id;
 
-    private ArrayList<Weapon> weapons;
-    private ArrayList<Armor> armors;
-    private ArrayList<Tool> tools;
-    private ArrayList<Ammo> ammo;
-    private ArrayList<Aid> aid;
-    private ArrayList<Item> miscItems;
+    private ArrayList<Weapon> weaponList;
+    private ArrayList<Armor> armorList;
+    private ArrayList<Tool> toolList;
+    private ArrayList<Ammo> ammoList;
+    private ArrayList<Aid> aidList;
+    private ArrayList<Item> miscItemList;
 
     public Inventory() {
         id = nextID;
         nextID++;
 
-        weapons = new ArrayList<>();
-        armors = new ArrayList<>();
-        tools = new ArrayList<>();
-        ammo = new ArrayList<>();
-        aid = new ArrayList<>();
-        miscItems = new ArrayList<>();
+        weaponList = new ArrayList<>();
+        armorList = new ArrayList<>();
+        toolList = new ArrayList<>();
+        ammoList = new ArrayList<>();
+        aidList = new ArrayList<>();
+        miscItemList = new ArrayList<>();
     }
 
-    public boolean addItem(Item newItem) {
+    public void add(Item newItem) {
         if (newItem.getClass().equals(Weapon.class)) {
-            weapons.add((Weapon) newItem);
-            return true;
+            weaponList.add((Weapon) newItem);
         }
         else if (newItem.getClass().equals(Armor.class)) {
-            armors.add((Armor) newItem);
-            return true;
+            armorList.add((Armor) newItem);
         }
         else if (newItem.getClass().equals(Tool.class)) {
-            tools.add((Tool) newItem);
-            return true;
+            toolList.add((Tool) newItem);
         }
         else if (newItem.getClass().equals(Ammo.class)) {
-            ammo.add((Ammo) newItem);
-            return true;
+            ammoList.add((Ammo) newItem);
         }
         else if (newItem.getClass().equals(Aid.class)) {
-            aid.add((Aid) newItem);
-            return true;
+            aidList.add((Aid) newItem);
         }
         else {
-            miscItems.add(newItem);
-            return true;
+            miscItemList.add(newItem);
         }
     }
 
-    //region Methods to set Item ArrayLists
-    public void setWeapons(ArrayList<Weapon> weapons) {
-        this.weapons = weapons;
+    public void remove(Item item) {
+        if (item.getClass().equals(Weapon.class)) {
+            weaponList.remove(item);
+        }
+        else if (item.getClass().equals(Armor.class)) {
+            armorList.remove(item);
+        }
+        else if (item.getClass().equals(Tool.class)) {
+            toolList.remove(item);
+        }
+        else if (item.getClass().equals(Ammo.class)) {
+            ammoList.remove(item);
+        }
+        else if (item.getClass().equals(Aid.class)) {
+            aidList.remove(item);
+        }
+        else {
+            miscItemList.remove(item);
+        }
     }
 
-    public void setArmors(ArrayList<Armor> armors) {
-        this.armors = armors;
+    public void clear() {
+        weaponList.clear();
+        armorList.clear();
+        toolList.clear();
+        ammoList.clear();
+        aidList.clear();
+        miscItemList.clear();
     }
 
-    public void setTools(ArrayList<Tool> tools) {
-        this.tools = tools;
+    public boolean contains(Item item) {
+        if (item.getClass().equals(Weapon.class)) {
+            return weaponList.contains(item);
+        }
+        else if (item.getClass().equals(Armor.class)) {
+            return armorList.contains(item);
+        }
+        else if (item.getClass().equals(Tool.class)) {
+            return toolList.contains(item);
+        }
+        else if (item.getClass().equals(Ammo.class)) {
+            return ammoList.contains(item);
+        }
+        else if (item.getClass().equals(Aid.class)) {
+            return aidList.contains(item);
+        }
+        else {
+            return miscItemList.contains(item);
+        }
     }
-
-    public void setAmmo(ArrayList<Ammo> ammo) {
-        this.ammo = ammo;
-    }
-
-    public void setAid(ArrayList<Aid> aid) {
-        this.aid = aid;
-    }
-
-    public void setMiscItems(ArrayList<Item> miscItems) {
-        this.miscItems = miscItems;
-    }
-    //endregion
 
     public int getTotalTradeValue() {
-        ArrayList[] lists = {weapons, armors, tools, ammo, aid, miscItems};
+        ArrayList[] lists = {weaponList, armorList, toolList, ammoList, aidList, miscItemList};
         int totalTradeValue = 0;
         for (ArrayList list : lists) {
             for (int i = 0; i < list.size(); i++) {
@@ -95,14 +114,14 @@ public class Inventory {
 
     public int getTotalAmmo() {
         int totalAmmo = 0;
-        for (int i = 0; i < ammo.size(); i++) {
-            totalAmmo += ammo.get(i).getQuantity();
+        for (Ammo unit : ammoList) {
+            totalAmmo += unit.getQuantity();
         }
         return totalAmmo;
     }
 
     public int getTotalWeight() {
-        ArrayList[] lists = {weapons, armors, tools, ammo, aid, miscItems};
+        ArrayList[] lists = {weaponList, armorList, toolList, ammoList, aidList, miscItemList};
         int totalWeight = 0;
         for (ArrayList list : lists) {
             for (int i = 0; i < list.size(); i++) {
@@ -120,28 +139,54 @@ public class Inventory {
     }
 
     //region Methods to get Item ArrayLists
-    public ArrayList<Weapon> getWeapons() {
-        return weapons;
+    public ArrayList<Weapon> getWeaponList() {
+        return weaponList;
     }
 
-    public ArrayList<Armor> getArmors() {
-        return armors;
+    public ArrayList<Armor> getArmorList() {
+        return armorList;
     }
 
-    public ArrayList<Tool> getTools() {
-        return tools;
+    public ArrayList<Tool> getToolList() {
+        return toolList;
     }
 
-    public ArrayList<Ammo> getAmmo() {
-        return ammo;
+    public ArrayList<Ammo> getAmmoList() {
+        return ammoList;
     }
 
-    public ArrayList<Aid> getAid() {
-        return aid;
+    public ArrayList<Aid> getAidList() {
+        return aidList;
     }
 
-    public ArrayList<Item> getMiscItems() {
-        return miscItems;
+    public ArrayList<Item> getMiscItemList() {
+        return miscItemList;
+    }
+    //endregion
+
+    //region Methods to set Item ArrayLists
+    public void setWeaponList(ArrayList<Weapon> weaponList) {
+        this.weaponList = weaponList;
+    }
+
+    public void setArmorList(ArrayList<Armor> armorList) {
+        this.armorList = armorList;
+    }
+
+    public void setToolList(ArrayList<Tool> toolList) {
+        this.toolList = toolList;
+    }
+
+    public void setAmmoList(ArrayList<Ammo> ammoList) {
+        this.ammoList = ammoList;
+    }
+
+    public void setAidList(ArrayList<Aid> aidList) {
+        this.aidList = aidList;
+    }
+
+    public void setMiscItemList(ArrayList<Item> miscItemList) {
+        this.miscItemList = miscItemList;
     }
     //endregion
 
