@@ -17,16 +17,17 @@ public class PlayerCharacter extends Character {
             Texture icon,
             Zone zone,
             Vector2 loc,
-            CharacterBackground background,
             int[] abilityScores,
+            CharacterSkills skills,
             AlignmentX alignX,
             AlignmentY alignY,
+            CharacterBackground background,
             int speed,
             String ideals,
             String bonds,
             String flaws
     ) {
-        super(charName, icon, zone, loc, background, abilityScores, alignX, alignY, speed);
+        super(charName, icon, zone, loc, abilityScores, skills, alignX, alignY, background, speed);
         this.playerName = playerName;
         this.ideals = ideals;
         this.bonds = bonds;

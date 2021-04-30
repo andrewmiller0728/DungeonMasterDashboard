@@ -2,29 +2,17 @@ package com.dungeonmaster.dashboard.character;
 
 import com.dungeonmaster.dashboard.Dice;
 
-// TODO: Rename CharacterAbilityScores
-public class AbilityScores {
-
-    public final static int SCORE_COUNT = 6;
+public class CharacterAbilityScores {
 
     public enum Ability {
         STRENGTH, DEXTERITY, CONSTITUTION, INTELLIGENCE, WISDOM, CHARISMA;
     }
 
-    public static String[] getAbilityStrings() {
-        String[] stringArray = new String[SCORE_COUNT];
-        stringArray[0] = AbilityScores.Ability.STRENGTH.name();
-        stringArray[1] = AbilityScores.Ability.DEXTERITY.name();
-        stringArray[2] = AbilityScores.Ability.CONSTITUTION.name();
-        stringArray[3] = AbilityScores.Ability.INTELLIGENCE.name();
-        stringArray[4] = AbilityScores.Ability.WISDOM.name();
-        stringArray[5] = AbilityScores.Ability.CHARISMA.name();
-        return stringArray;
-    }
+    public final static int SCORE_COUNT = 6;
 
-    private int[] scores;
+    private final int[] scores;
 
-    public AbilityScores() {
+    public CharacterAbilityScores() {
         Dice dice = new Dice();
         scores = new int[6];
         for (int i = 0; i < scores.length; i++) {
@@ -32,7 +20,7 @@ public class AbilityScores {
         }
     }
 
-    public AbilityScores(int[] scores) {
+    public CharacterAbilityScores(int[] scores) {
         this.scores = scores;
     }
 

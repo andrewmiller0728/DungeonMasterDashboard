@@ -23,7 +23,7 @@ public class Character {
     private Vector2 zonePosition;
     private int maxHitPoints;
     private int currHitPoints;
-    private AbilityScores abilityScores;
+    private CharacterAbilityScores abilityScores;
     private CharacterSkills skills;
     private AlignmentX alignmentX;
     private AlignmentY alignmentY;
@@ -50,13 +50,14 @@ public class Character {
         this.zone = zone;
         zonePosition = position;
 
-        this.abilityScores = new AbilityScores(abilityScores);
+        this.abilityScores = new CharacterAbilityScores(abilityScores);
         this.skills = skills;
+        this.skills.setCharacter(this);
         alignmentX = alignX;
         alignmentY = alignY;
         this.background = background;
 
-        maxHitPoints = 8 + (this.abilityScores.getScore(AbilityScores.Ability.CONSTITUTION) / 2);
+        maxHitPoints = 8 + (this.abilityScores.getScore(CharacterAbilityScores.Ability.CONSTITUTION) / 2);
         currHitPoints = maxHitPoints;
 
         this.speed = speed;
@@ -73,7 +74,7 @@ public class Character {
         this.zone = zone;
         zonePosition = position;
 
-        abilityScores = new AbilityScores();
+        abilityScores = new CharacterAbilityScores();
         skills = new CharacterSkills(this);
         //region Set AlignmentXY and Background
         Dice dice = new Dice();
@@ -145,7 +146,7 @@ public class Character {
         }
         //endregion
 
-        maxHitPoints = 8 + (this.abilityScores.getScore(AbilityScores.Ability.CONSTITUTION) / 2);
+        maxHitPoints = 8 + (this.abilityScores.getScore(CharacterAbilityScores.Ability.CONSTITUTION) / 2);
         currHitPoints = maxHitPoints;
 
         speed = 30;
@@ -361,7 +362,7 @@ public class Character {
         return currHitPoints - initHitPoints;
     }
 
-    public boolean abilityCheck(AbilityScores.Ability ability, int dc) {
+    public boolean abilityCheck(CharacterAbilityScores.Ability ability, int dc) {
         Dice dice = new Dice();
         return (dice.rollDn(20) + abilityScores.getModifier(ability)) >= dc;
     }
@@ -388,8 +389,12 @@ public class Character {
         return background;
     }
 
-    public AbilityScores getAbilityScores() {
+    public CharacterAbilityScores getAbilityScores() {
         return abilityScores;
+    }
+
+    public CharacterSkills getSkills() {
+        return skills;
     }
 
     public Zone getZone() {
@@ -429,7 +434,7 @@ public class Character {
     }
 
     public int getCarryLimit() {
-        return abilityScores.getScore(AbilityScores.Ability.STRENGTH) * 15;
+        return abilityScores.getScore(CharacterAbilityScores.Ability.STRENGTH) * 15;
     }
 
     public int getInventoryWeight() {
@@ -437,7 +442,7 @@ public class Character {
     }
 
     public int getAC() {
-        return 10 + abilityScores.getScore(AbilityScores.Ability.DEXTERITY) + inventory.getACModifier();
+        return 10 + abilityScores.getScore(CharacterAbilityScores.Ability.DEXTERITY) + inventory.getACModifier();
     }
     //endregion
 

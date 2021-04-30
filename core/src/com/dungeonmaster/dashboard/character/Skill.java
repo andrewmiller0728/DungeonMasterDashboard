@@ -4,26 +4,26 @@ public class Skill {
 
     public enum Name {
         ATHLETICS, ACROBATICS, SLEIGHT_OF_HAND,
-        STEALTH, HISTORY, INVESTIGATION,
+        STEALTH, SCIENCE, HISTORY, INVESTIGATION,
         NATURE, RELIGION, ANIMAL_HANDLING,
         INSIGHT, PERCEPTION, MEDICINE,
         SURVIVAL, DECEPTION, INTIMIDATION,
         PERFORMANCE, PERSUASION
     }
 
-    private AbilityScores.Ability refAbility;
+    private CharacterAbilityScores.Ability refAbility;
     private Name name;
     private boolean isProficient;
     private boolean isExpert;
 
-    public Skill(AbilityScores.Ability refAbility, Name name) {
+    public Skill(CharacterAbilityScores.Ability refAbility, Name name) {
         this.refAbility = refAbility;
         this.name = name;
         isProficient = false;
         isExpert = false;
     }
 
-    public Skill(AbilityScores.Ability refAbility, Name name, boolean isProficient, boolean isExpert) {
+    public Skill(CharacterAbilityScores.Ability refAbility, Name name, boolean isProficient, boolean isExpert) {
         this.refAbility = refAbility;
         this.name = name;
         this.isProficient = isProficient;
@@ -46,7 +46,7 @@ public class Skill {
         return isExpert;
     }
 
-    public AbilityScores.Ability getRefAbility() {
+    public CharacterAbilityScores.Ability getRefAbility() {
         return refAbility;
     }
 

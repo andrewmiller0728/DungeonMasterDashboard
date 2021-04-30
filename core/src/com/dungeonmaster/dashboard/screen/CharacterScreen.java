@@ -15,7 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dungeonmaster.dashboard.command.CommandList;
-import com.dungeonmaster.dashboard.character.AbilityScores;
+import com.dungeonmaster.dashboard.character.CharacterAbilityScores;
 import com.dungeonmaster.dashboard.character.Character;
 import com.dungeonmaster.dashboard.character.PlayerCharacter;
 
@@ -159,8 +159,14 @@ public class CharacterScreen implements Screen, InputProcessor {
         );
 
         // Character Ability Scores
-        String[] abilityNames = AbilityScores.getAbilityStrings();
-        for (int i = 0; i < AbilityScores.SCORE_COUNT; i++) {
+        String[] abilityNames = new String[CharacterAbilityScores.SCORE_COUNT];
+        abilityNames[0] = CharacterAbilityScores.Ability.STRENGTH.name();
+        abilityNames[1] = CharacterAbilityScores.Ability.DEXTERITY.name();
+        abilityNames[2] = CharacterAbilityScores.Ability.CONSTITUTION.name();
+        abilityNames[3] = CharacterAbilityScores.Ability.INTELLIGENCE.name();
+        abilityNames[4] = CharacterAbilityScores.Ability.WISDOM.name();
+        abilityNames[5] = CharacterAbilityScores.Ability.CHARISMA.name();
+        for (int i = 0; i < CharacterAbilityScores.SCORE_COUNT; i++) {
             String currAbilityScore = String.format("%2d", character.getAbilityScores().getScore(i));
             segoePrint32.draw(
                     batch,

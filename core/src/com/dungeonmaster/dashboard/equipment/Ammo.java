@@ -4,6 +4,8 @@ public class Ammo extends Item {
 
     private int quantity;
 
+    // TODO: AMMO TYPES (HANDGUN, RIFLE, SHOTGUN, ROCKET)
+
     public Ammo() {
         super();
         quantity = 1;

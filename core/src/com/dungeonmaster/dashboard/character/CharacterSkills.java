@@ -10,9 +10,36 @@ public class CharacterSkills {
     private Character character;
     private ArrayList<Skill> skills;
 
+    public CharacterSkills() {
+        this.character = null;
+        skills = new ArrayList<>();
+        addBasicSkillSet();
+    }
     public CharacterSkills(Character character) {
         this.character = character;
         skills = new ArrayList<>();
+        addBasicSkillSet();
+    }
+
+    private void addBasicSkillSet() {
+        skills.add(new Skill(CharacterAbilityScores.Ability.STRENGTH, Skill.Name.ATHLETICS));
+        skills.add(new Skill(CharacterAbilityScores.Ability.DEXTERITY, Skill.Name.ACROBATICS));
+        skills.add(new Skill(CharacterAbilityScores.Ability.DEXTERITY, Skill.Name.SLEIGHT_OF_HAND));
+        skills.add(new Skill(CharacterAbilityScores.Ability.DEXTERITY, Skill.Name.STEALTH));
+        skills.add(new Skill(CharacterAbilityScores.Ability.INTELLIGENCE, Skill.Name.SCIENCE));
+        skills.add(new Skill(CharacterAbilityScores.Ability.INTELLIGENCE, Skill.Name.HISTORY));
+        skills.add(new Skill(CharacterAbilityScores.Ability.INTELLIGENCE, Skill.Name.INVESTIGATION));
+        skills.add(new Skill(CharacterAbilityScores.Ability.INTELLIGENCE, Skill.Name.NATURE));
+        skills.add(new Skill(CharacterAbilityScores.Ability.INTELLIGENCE, Skill.Name.RELIGION));
+        skills.add(new Skill(CharacterAbilityScores.Ability.WISDOM, Skill.Name.ANIMAL_HANDLING));
+        skills.add(new Skill(CharacterAbilityScores.Ability.WISDOM, Skill.Name.INSIGHT));
+        skills.add(new Skill(CharacterAbilityScores.Ability.WISDOM, Skill.Name.PERCEPTION));
+        skills.add(new Skill(CharacterAbilityScores.Ability.WISDOM, Skill.Name.MEDICINE));
+        skills.add(new Skill(CharacterAbilityScores.Ability.WISDOM, Skill.Name.SURVIVAL));
+        skills.add(new Skill(CharacterAbilityScores.Ability.CHARISMA, Skill.Name.DECEPTION));
+        skills.add(new Skill(CharacterAbilityScores.Ability.CHARISMA, Skill.Name.INTIMIDATION));
+        skills.add(new Skill(CharacterAbilityScores.Ability.CHARISMA, Skill.Name.PERFORMANCE));
+        skills.add(new Skill(CharacterAbilityScores.Ability.CHARISMA, Skill.Name.PERSUASION));
     }
 
     public boolean addSkill(Skill skill) {
@@ -43,6 +70,10 @@ public class CharacterSkills {
             skillBonus += BONUSES[character.getLevel() - 1];
         }
         return skillBonus;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 
 }
