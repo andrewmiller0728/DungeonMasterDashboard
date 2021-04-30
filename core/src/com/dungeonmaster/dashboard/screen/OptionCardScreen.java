@@ -75,11 +75,11 @@ public class OptionCardScreen implements Screen, InputProcessor {
 
         commandList = new CommandList();
 
-        segoePrint32 = new BitmapFont(Gdx.files.internal("./segoe-print-32px.fnt"));
+        segoePrint32 = new BitmapFont(Gdx.files.internal("./fonts/segoe-print-32px.fnt"));
         segoePrint32.setColor(0f, 0f, 0f, 1f);
-        segoePrint24 = new BitmapFont(Gdx.files.internal("./segoe-print-24px.fnt"));
+        segoePrint24 = new BitmapFont(Gdx.files.internal("./fonts/segoe-print-24px.fnt"));
         segoePrint24.setColor(0f, 0f, 0f, 1f);
-        segoePrint18 = new BitmapFont(Gdx.files.internal("./segoe-print-18px.fnt"));
+        segoePrint18 = new BitmapFont(Gdx.files.internal("./fonts/segoe-print-18px.fnt"));
         segoePrint18.setColor(0f, 0f, 0f, 1f);
 
         setBackgroundSprite(new Texture("./oldpaper.jpg"));

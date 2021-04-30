@@ -91,7 +91,7 @@ public class ZoneScreen implements Screen, InputProcessor {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
-        segoePrint32 = new BitmapFont(Gdx.files.internal("./segoe-print-32px.fnt"));
+        segoePrint32 = new BitmapFont(Gdx.files.internal("./fonts/segoe-print-32px.fnt"));
         segoePrint32.setColor(0f, 0f, 0f, 1f);
     }
 
