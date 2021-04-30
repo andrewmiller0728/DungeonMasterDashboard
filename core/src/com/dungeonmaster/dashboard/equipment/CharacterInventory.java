@@ -16,7 +16,7 @@ public class CharacterInventory extends Inventory {
 
     public int useEquippedWeapon() {
         if (equippedWeapon.getWeapon() != null) {
-            if (equippedWeapon.getWeapon().getType() == Weapon.Type.RANGED && super.getTotalAmmo() > 0) {
+            if (equippedWeapon.getWeapon().getWeaponType() == Weapon.Type.RANGED && super.getTotalAmmo() > 0) {
                 if (character.getInventory().getTotalAmmo() > 0) {
                     useAmmo();
                 }
@@ -71,4 +71,5 @@ public class CharacterInventory extends Inventory {
     public EquippedWeapon getEquippedWeapon() {
         return equippedWeapon;
     }
+
 }

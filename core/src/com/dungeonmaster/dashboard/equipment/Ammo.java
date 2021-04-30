@@ -2,16 +2,20 @@ package com.dungeonmaster.dashboard.equipment;
 
 public class Ammo extends Item {
 
-    private int quantity;
-
-    // TODO: AMMO TYPES (HANDGUN, RIFLE, SHOTGUN, ROCKET)
-
-    public Ammo() {
-        super();
-        quantity = 1;
+    public enum AmmoType {
+        HANDGUN, RIFLE, SHOTGUN, ROCKET, NONE
     }
 
-    public Ammo(Item baseItem, int quantity) {
+    private int quantity;
+    private AmmoType type;
+
+    public Ammo(AmmoType type) {
+        super();
+        quantity = 1;
+        this.type = type;
+    }
+
+    public Ammo(Item baseItem, int quantity, AmmoType type) {
         super(
                 baseItem.getName(),
                 baseItem.getTradeValue(),
@@ -20,6 +24,7 @@ public class Ammo extends Item {
                 baseItem.isConsumable()
         );
         this.quantity = quantity;
+        this.type = type;
     }
 
     public void consumeAmmo() {
@@ -32,8 +37,16 @@ public class Ammo extends Item {
         return quantity;
     }
 
+    public AmmoType getType() {
+        return type;
+    }
+
     public boolean isEmpty() {
-        return quantity == 0;
+        return type == AmmoType.NONE || quantity == 0;
+    }
+
+    public boolean isType(AmmoType type) {
+        return this.type == type;
     }
 
 }

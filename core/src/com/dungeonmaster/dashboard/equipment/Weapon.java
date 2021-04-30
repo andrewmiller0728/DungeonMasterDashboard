@@ -18,7 +18,8 @@ public class Weapon extends Item {
     }
 
     private Category category;
-    private Type type;
+    private Type weaponType;
+    private Ammo.AmmoType ammoType;
     private Size size;
     private Dice hitDice;
     private boolean consumesAmmo;
@@ -28,32 +29,35 @@ public class Weapon extends Item {
     public Weapon() {
         super();
         this.category = Category.SIMPLE;
-        this.type = Type.MELEE;
+        this.weaponType = Type.MELEE;
         this.size = Size.SMALL;
         this.hitDice = new Dice(1, 1);
         this.consumesAmmo = false;
+        this.ammoType = Ammo.AmmoType.NONE;
         this.range = new Vector2(5, 5);
         this.isTwoHanded = false;
     }
 
-    public Weapon(Item baseItem, Dice hitDice, Type type, boolean consumesAmmo, Vector2 range) {
+    public Weapon(Item baseItem, Dice hitDice, Type weaponType, boolean consumesAmmo, Ammo.AmmoType ammoType, Vector2 range) {
         super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.isEquippable(), baseItem.isConsumable());
         this.category = Category.SIMPLE;
-        this.type = type;
+        this.weaponType = weaponType;
         this.size = Size.SMALL;
         this.hitDice = hitDice;
         this.consumesAmmo = consumesAmmo;
+        this.ammoType = ammoType;
         this.range = range;
         this.isTwoHanded = false;
     }
 
-    public Weapon(Item baseItem, Category category, Type type, Size size, Dice hitDice, boolean consumesAmmo, Vector2 range, boolean isTwoHanded) {
+    public Weapon(Item baseItem, Category category, Type weaponType, Size size, Dice hitDice, boolean consumesAmmo, Ammo.AmmoType ammoType, Vector2 range, boolean isTwoHanded) {
         super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.isEquippable(), baseItem.isConsumable());
         this.category = category;
-        this.type = type;
+        this.weaponType = weaponType;
         this.size = size;
         this.hitDice = hitDice;
         this.consumesAmmo = consumesAmmo;
+        this.ammoType = ammoType;
         this.range = range;
         this.isTwoHanded = isTwoHanded;
     }
@@ -62,8 +66,8 @@ public class Weapon extends Item {
         return category;
     }
 
-    public Type getType() {
-        return type;
+    public Type getWeaponType() {
+        return weaponType;
     }
 
     public Size getSize() {
@@ -74,7 +78,7 @@ public class Weapon extends Item {
         return hitDice;
     }
 
-    public boolean isConsumesAmmo() {
+    public boolean consumesAmmo() {
         return consumesAmmo;
     }
 
