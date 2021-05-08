@@ -3,7 +3,7 @@ package com.dungeonmaster.dashboard.equipment;
 public class Ammo extends Item {
 
     public enum AmmoType {
-        HANDGUN, RIFLE, SHOTGUN, ROCKET, NONE
+        HANDGUN, RIFLE, SHOTGUN, EXPLOSIVE, NONE
     }
 
     private int quantity;

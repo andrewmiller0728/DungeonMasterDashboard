@@ -9,7 +9,7 @@ public class Weapon extends Item {
         MARTIAL, SIMPLE
     }
 
-    public enum Type {
+    public enum WeaponType {
         MELEE, RANGED
     }
 
@@ -18,7 +18,7 @@ public class Weapon extends Item {
     }
 
     private Category category;
-    private Type weaponType;
+    private WeaponType weaponType;
     private Ammo.AmmoType ammoType;
     private Size size;
     private Dice hitDice;
@@ -29,7 +29,7 @@ public class Weapon extends Item {
     public Weapon() {
         super();
         this.category = Category.SIMPLE;
-        this.weaponType = Type.MELEE;
+        this.weaponType = WeaponType.MELEE;
         this.size = Size.SMALL;
         this.hitDice = new Dice(1, 1);
         this.consumesAmmo = false;
@@ -38,7 +38,7 @@ public class Weapon extends Item {
         this.isTwoHanded = false;
     }
 
-    public Weapon(Item baseItem, Dice hitDice, Type weaponType, boolean consumesAmmo, Ammo.AmmoType ammoType, Vector2 range) {
+    public Weapon(Item baseItem, Dice hitDice, WeaponType weaponType, boolean consumesAmmo, Ammo.AmmoType ammoType, Vector2 range) {
         super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.isEquippable(), baseItem.isConsumable());
         this.category = Category.SIMPLE;
         this.weaponType = weaponType;
@@ -50,7 +50,7 @@ public class Weapon extends Item {
         this.isTwoHanded = false;
     }
 
-    public Weapon(Item baseItem, Category category, Type weaponType, Size size, Dice hitDice, boolean consumesAmmo, Ammo.AmmoType ammoType, Vector2 range, boolean isTwoHanded) {
+    public Weapon(Item baseItem, Dice hitDice, Category category, WeaponType weaponType, Size size, boolean consumesAmmo, Ammo.AmmoType ammoType, Vector2 range, boolean isTwoHanded) {
         super(baseItem.getName(), baseItem.getTradeValue(), baseItem.getWeight(), baseItem.isEquippable(), baseItem.isConsumable());
         this.category = category;
         this.weaponType = weaponType;
@@ -66,7 +66,7 @@ public class Weapon extends Item {
         return category;
     }
 
-    public Type getWeaponType() {
+    public WeaponType getWeaponType() {
         return weaponType;
     }
 
@@ -82,6 +82,10 @@ public class Weapon extends Item {
         return consumesAmmo;
     }
 
+    public Ammo.AmmoType getAmmoType() {
+        return ammoType;
+    }
+
     public Vector2 getRange() {
         return range;
     }
@@ -90,4 +94,17 @@ public class Weapon extends Item {
         return isTwoHanded;
     }
 
+    @Override
+    public String toString() {
+        return "Weapon{" +
+                "category=" + category +
+                ", weaponType=" + weaponType +
+                ", ammoType=" + ammoType +
+                ", size=" + size +
+                ", hitDice=" + hitDice +
+                ", consumesAmmo=" + consumesAmmo +
+                ", range=" + range +
+                ", isTwoHanded=" + isTwoHanded +
+                '}';
+    }
 }

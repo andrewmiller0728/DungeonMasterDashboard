@@ -1,0 +1,15 @@
+// ID, NAME, SIZE, AC, STEALTH, WEIGHT, TRADE_VALUE, STRENGTH
+0, padded_armor, light, 11, false, 8, 5, 0
+1, leather_armor, light, 11, true, 10, 10, 0
+2, studded_leather_armor, light, 12, true, 13, 45, 0
+3, hide_armor, medium, 12, true, 12, 10, 0
+4, chain_shirt_armor, medium, 13, true, 20, 50, 0
+5, scale_mail_armor, medium, 14, false, 45, 50, 0
+6, breastplate_armor, medium, 14, true, 20, 400, 0
+7, half_plate_armor, medium, 15, false, 40, 750, 0
+8, ring_mail_armor, heavy, 14, false, 40, 30, 0
+9, chain_mail_armor, heavy, 16, false, 55, 75, 13
+10, splint_armor, heavy, 17, false, 60, 200, 15
+11, plate_armor, heavy, 18, false, 65, 1500, 15
+12, shield, shield, 2, true, 6, 10, 0
+13, clothing, light, 0, true, 4, 2, 0

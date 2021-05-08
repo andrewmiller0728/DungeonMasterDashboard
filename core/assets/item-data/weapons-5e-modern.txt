@@ -1,0 +1,22 @@
+// ID, WEAPON, CATEGORY, WEAPON_TYPE, SIZE, DAMAGE, RANGE, WEIGHT, TRADE_VALUE, AMMO_TYPE, TWO_HANDED
+0, drill, simple, melee, small, 1d6, 0/0, 10, 4, none, false
+1, punch_gun, simple, melee, small, 2d8, 0/0, 1, 5, none, false
+2, shotgun, simple, ranged, small, 2d8, 30/90, 11, 18, shotgun, true
+3, taser, simple, ranged, small, 1d4, 20/40, 1, 8, none, false
+4, chainsaw, simple, melee, small, 2d8, 0/0, 13, 10, none, true
+5, garrote_wire, martial, melee, small, 2d6, 0/0, 1, 6, none, true
+6, assault_rifle, martial, ranged, small, 3d8, 200/600, 10, 30, rifle, true
+7, battle_rifle, martial, ranged, small, 2d10, 80/240, 11, 22, rifle, true
+8, pistol, simple, ranged, small, 2d6, 50/150, 2, 15, handgun, false
+9, revolver, simple, ranged, small, 2d12, 80/240, 4, 15, handgun, false
+10, combat_pistol, martial, ranged, small, 4d8, 60/180, 4, 17, handgun, false
+11, combat_shotgun, martial, ranged, small, 2d12, 30/100, 9, 25, shotgun, true
+12, flamethrower, martial, ranged, small, 2d8, 50/120, 40, 35, none, true
+13, rocket_launcher, martial, ranged, small, 12d8, 60/600, 16, 50, explosive, true
+14, grenade_launcher, martial, ranged, small, 6d8, 50/300, 13, 45, explosive, true
+15, light_machine_gun, martial, ranged, small, 3d6, 80/240, 30, 30, rifle, true
+16, minigun, martial, ranged, small, 4d10, 40/240, 65, 40, rifle, true
+17, hunting_rifle, simple, ranged, small, 2d8, 40/160, 9, 18, rifle, true
+18, sniper_rifle, martial, ranged, small, 2d10, 180/540, 17, 28, rifle, true
+19, club, simple, melee, small, 1d4, 0/0, 2, 5, none, false
+20, dagger, simple, melee, small, 1d4, 0/0, 1, 6, none, false

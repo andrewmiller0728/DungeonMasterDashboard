@@ -4,18 +4,16 @@ import java.util.Random;
 
 public class Dice {
 
-    private static Random random;
+    private static final Random random = new Random();
     private int quantity;
     private int sides;
 
     public Dice() {
-        random = new Random();
         this.quantity = 1;
         this.sides = 1;
     }
 
     public Dice(int quantity, int sides) {
-        random = new Random();
         this.quantity = quantity;
         this.sides = sides;
     }
@@ -36,4 +34,8 @@ public class Dice {
         return sum;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%dd%d", quantity, sides);
+    }
 }

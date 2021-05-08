@@ -1,0 +1,2 @@
+// ID, NAME, WEIGHT, TRADE_VALUE
+0, chemistry_supplies, 8, 50

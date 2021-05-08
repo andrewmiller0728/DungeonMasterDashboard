@@ -51,39 +51,39 @@ public class EquippedArmor {
 
     public Armor swapArmor(Armor newArmor) {
         Armor temp = null;
-        if (newArmor.getLocation().equals(Armor.Location.HEAD)) {
+        if (newArmor.getBodyPart().equals(Armor.BodyPart.HEAD)) {
             temp = head;
             head = newArmor;
         }
-        else if (newArmor.getLocation().equals(Armor.Location.LEFT_ARM)) {
+        else if (newArmor.getBodyPart().equals(Armor.BodyPart.LEFT_ARM)) {
             temp = leftArm;
             leftArm = newArmor;
         }
-        else if (newArmor.getLocation().equals(Armor.Location.RIGHT_ARM)) {
+        else if (newArmor.getBodyPart().equals(Armor.BodyPart.RIGHT_ARM)) {
             temp = rightArm;
             rightArm = newArmor;
         }
-        else if (newArmor.getLocation().equals(Armor.Location.TORSO)) {
+        else if (newArmor.getBodyPart().equals(Armor.BodyPart.TORSO)) {
             temp = torso;
             torso = newArmor;
         }
-        else if (newArmor.getLocation().equals(Armor.Location.LEFT_LEG)) {
+        else if (newArmor.getBodyPart().equals(Armor.BodyPart.LEFT_LEG)) {
             temp = leftLeg;
             leftLeg = newArmor;
         }
-        else if (newArmor.getLocation().equals(Armor.Location.RIGHT_LEG)) {
+        else if (newArmor.getBodyPart().equals(Armor.BodyPart.RIGHT_LEG)) {
             temp = rightLeg;
             rightLeg = newArmor;
         }
-        else if (newArmor.getLocation().equals(Armor.Location.LEFT_FOOT)) {
+        else if (newArmor.getBodyPart().equals(Armor.BodyPart.LEFT_FOOT)) {
             temp = leftFoot;
             leftFoot = newArmor;
         }
-        else if (newArmor.getLocation().equals(Armor.Location.RIGHT_FOOT)) {
+        else if (newArmor.getBodyPart().equals(Armor.BodyPart.RIGHT_FOOT)) {
             temp = rightFoot;
             rightFoot = newArmor;
         }
-        else if (newArmor.getLocation().equals(Armor.Location.SHIELD)) {
+        else if (newArmor.getBodyPart().equals(Armor.BodyPart.SHIELD)) {
             temp = shield;
             shield = newArmor;
         }
@@ -99,7 +99,7 @@ public class EquippedArmor {
     }
 
     public Armor swapHead(Armor newArmor) {
-        if (newArmor.getLocation() == Armor.Location.HEAD) {
+        if (newArmor.getBodyPart() == Armor.BodyPart.HEAD) {
             Armor temp = this.head;
             this.head = newArmor;
             return temp;
@@ -114,7 +114,7 @@ public class EquippedArmor {
     }
 
     public Armor swapLeftArm(Armor newArmor) {
-        if (newArmor.getLocation() == Armor.Location.LEFT_ARM) {
+        if (newArmor.getBodyPart() == Armor.BodyPart.LEFT_ARM) {
             Armor temp = this.leftArm;
             this.leftArm = newArmor;
             return temp;
@@ -129,7 +129,7 @@ public class EquippedArmor {
     }
 
     public Armor swapRightArm(Armor newArmor) {
-        if (newArmor.getLocation() == Armor.Location.RIGHT_ARM) {
+        if (newArmor.getBodyPart() == Armor.BodyPart.RIGHT_ARM) {
             Armor temp = this.rightArm;
             this.rightArm = newArmor;
             return temp;
@@ -144,7 +144,7 @@ public class EquippedArmor {
     }
 
     public Armor swapTorso(Armor newArmor) {
-        if (newArmor.getLocation() == Armor.Location.TORSO) {
+        if (newArmor.getBodyPart() == Armor.BodyPart.TORSO) {
             Armor temp = this.torso;
             this.torso = newArmor;
             return temp;
@@ -159,7 +159,7 @@ public class EquippedArmor {
     }
 
     public Armor setLeftLeg(Armor newArmor) {
-        if (newArmor.getLocation() == Armor.Location.LEFT_LEG) {
+        if (newArmor.getBodyPart() == Armor.BodyPart.LEFT_LEG) {
             Armor temp = this.leftLeg;
             this.leftLeg = newArmor;
             return temp;
@@ -174,7 +174,7 @@ public class EquippedArmor {
     }
 
     public Armor swapRightLeg(Armor newArmor) {
-        if (newArmor.getLocation() == Armor.Location.RIGHT_LEG) {
+        if (newArmor.getBodyPart() == Armor.BodyPart.RIGHT_LEG) {
             Armor temp = this.rightLeg;
             this.rightLeg = newArmor;
             return temp;
@@ -189,7 +189,7 @@ public class EquippedArmor {
     }
 
     public Armor swapLeftFoot(Armor newArmor) {
-        if (newArmor.getLocation() == Armor.Location.LEFT_FOOT) {
+        if (newArmor.getBodyPart() == Armor.BodyPart.LEFT_FOOT) {
             Armor temp = this.leftFoot;
             this.leftFoot = newArmor;
             return temp;
@@ -204,7 +204,7 @@ public class EquippedArmor {
     }
 
     public Armor swapRightFoot(Armor newArmor) {
-        if (newArmor.getLocation() == Armor.Location.RIGHT_FOOT) {
+        if (newArmor.getBodyPart() == Armor.BodyPart.RIGHT_FOOT) {
             Armor temp = this.rightFoot;
             this.rightFoot = newArmor;
             return temp;
@@ -219,7 +219,7 @@ public class EquippedArmor {
     }
 
     public Armor swapShield(Armor newArmor) {
-        if (newArmor.getLocation() == Armor.Location.SHIELD) {
+        if (newArmor.getBodyPart() == Armor.BodyPart.SHIELD) {
             Armor temp = this.shield;
             this.shield = newArmor;
             return temp;
